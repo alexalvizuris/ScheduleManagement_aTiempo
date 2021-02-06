@@ -35,19 +35,19 @@ public class AppointmentImpl extends AppointmentDAO {
     public Appointment create(Appointment appointment) {
         Connection conn = DBConnection.startConnection();
         try(PreparedStatement statement = conn.prepareStatement(INSERT)) {
-            statement.setString(2, appointment.getTitle());
-            statement.setString(3, appointment.getDescription());
-            statement.setString(4, appointment.getLocation());
-            statement.setString(5, appointment.getType());
-            statement.setTimestamp(6, java.sql.Timestamp.valueOf(appointment.getStart()));
-            statement.setTimestamp(7, java.sql.Timestamp.valueOf(appointment.getEnd()));
-            statement.setTimestamp(8, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
-            statement.setString(9, appointment.getCreatedBy());
-            statement.setTimestamp(10, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
-            statement.setString(11, appointment.getLastUpdatedBy());
-            statement.setInt(12, appointment.getCustomerID());
-            statement.setInt(13, appointment.getUserID());
-            statement.setInt(14, appointment.getContactID());
+            statement.setString(1, appointment.getTitle());
+            statement.setString(2, appointment.getDescription());
+            statement.setString(3, appointment.getLocation());
+            statement.setString(4, appointment.getType());
+            statement.setTimestamp(5, java.sql.Timestamp.valueOf(appointment.getStart()));
+            statement.setTimestamp(6, java.sql.Timestamp.valueOf(appointment.getEnd()));
+            statement.setTimestamp(7, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+            statement.setString(8, appointment.getCreatedBy());
+            statement.setTimestamp(9, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+            statement.setString(10, appointment.getLastUpdatedBy());
+            statement.setInt(11, appointment.getCustomerID());
+            statement.setInt(12, appointment.getUserID());
+            statement.setInt(13, appointment.getContactID());
             statement.execute();
 
         } catch (SQLException e) {
@@ -74,9 +74,9 @@ public class AppointmentImpl extends AppointmentDAO {
                 appt.setDescription(resultSet.getString("Description"));
                 appt.setLocation(resultSet.getString("Location"));
                 appt.setType(resultSet.getString("Type"));
-                appt.setStart(resultSet.getObject(6, LocalDateTime.class));
-                appt.setEnd(resultSet.getObject(7, LocalDateTime.class));
-                appt.setCreateDate(resultSet.getObject(8, LocalDateTime.class));
+                appt.setStart(resultSet.getObject("Start", LocalDateTime.class));
+                appt.setEnd(resultSet.getObject("End", LocalDateTime.class));
+                appt.setCreateDate(resultSet.getObject("Create_Date", LocalDateTime.class));
                 appt.setCreatedBy(resultSet.getString("Created_By"));
                 appt.setLastUpdate(resultSet.getTimestamp("Last_Update"));
                 appt.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));
@@ -108,9 +108,9 @@ public class AppointmentImpl extends AppointmentDAO {
                 appt.setDescription(resultSet.getString("Description"));
                 appt.setLocation(resultSet.getString("Location"));
                 appt.setType(resultSet.getString("Type"));
-                appt.setStart(resultSet.getObject(6, LocalDateTime.class));
-                appt.setEnd(resultSet.getObject(7, LocalDateTime.class));
-                appt.setCreateDate(resultSet.getObject(8, LocalDateTime.class));
+                appt.setStart(resultSet.getObject("Start", LocalDateTime.class));
+                appt.setEnd(resultSet.getObject("End", LocalDateTime.class));
+                appt.setCreateDate(resultSet.getObject("Create_Date", LocalDateTime.class));
                 appt.setCreatedBy(resultSet.getString("Created_By"));
                 appt.setLastUpdate(resultSet.getTimestamp("Last_Update"));
                 appt.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));

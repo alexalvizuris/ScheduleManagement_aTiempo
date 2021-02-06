@@ -3,6 +3,7 @@ package database.impl;
 import database.DBConnection;
 import database.DBQuery;
 import database.dao.CountryDAO;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Country;
 
@@ -29,7 +30,7 @@ public class CountryImpl extends CountryDAO {
 
             country.setCountryID(resultSet.getInt( "Country_ID"));
             country.setCountryName(resultSet.getString("Country"));
-            country.setCreateDate(resultSet.getObject(3, LocalDateTime.class));
+            country.setCreateDate(resultSet.getObject("Create_Date", LocalDateTime.class));
             country.setCreatedBy(resultSet.getString("Created_By"));
             country.setLastUpdate(resultSet.getTimestamp("Last_Update"));
             country.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));
@@ -45,6 +46,26 @@ public class CountryImpl extends CountryDAO {
 
     @Override
     public ObservableList<Country> getAllCountries() {
-        return null;
+        Connection conn = DBConnection.startConnection();
+        ObservableList<Country> countries = FXCollections.observableArrayList();
+        try {
+            Country country = null;
+            DBQuery.setPreparedStatement(conn, GET_ALL);
+            ResultSet resultSet = DBQuery.getPreparedStatement().getResultSet();
+
+            while (resultSet.next()) {
+                country.setCountryID(resultSet.getInt("Country_ID"));
+                country.setCountryName(resultSet.getString("Country"));
+                country.setCreateDate(resultSet.getObject("Create_Date", LocalDateTime.class));
+                country.setCreatedBy(resultSet.getString("Created_By"));
+                country.setLastUpdate(resultSet.getTimestamp("Last_Update"));
+                country.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));
+                countries.add(country);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        DBConnection.closeConnection();
+        return countries;
     }
 }
