@@ -15,7 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class CustomerImpl extends CustomerDAO{
+public class CustomerImpl extends CustomerDAO {
 
     // Initializes Insert string
     private static final String INSERT = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)" +
@@ -44,12 +44,9 @@ public class CustomerImpl extends CustomerDAO{
             statement.setString(3, customer.getAddress());
             statement.setString(4, customer.getPostalCode());
             statement.setString(5, customer.getPhoneNumber());
-            LocalTime rightNow = LocalTime.now();
-            LocalDate today = LocalDate.now();
-            LocalDateTime now = LocalDateTime.of(today, rightNow);
-            statement.setTimestamp(6, Timestamp.valueOf(now));
+            statement.setTimestamp(6, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
             statement.setString(7, customer.getCreatedBy());
-            statement.setTimestamp(8, Timestamp.valueOf(now));
+            statement.setTimestamp(8, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
             statement.setString(9, customer.getLastUpdatedBy());
             statement.setInt(10, customer.getDivisionID());
             statement.execute();
@@ -80,10 +77,7 @@ public class CustomerImpl extends CustomerDAO{
                 customer.setAddress(resultSet.getString("Address"));
                 customer.setPostalCode(resultSet.getString("Postal_Code"));
                 customer.setPhoneNumber(resultSet.getString("Phone"));
-                LocalDate dateCreated = resultSet.getDate("Create_Date").toLocalDate();
-                LocalTime timeCreated = resultSet.getTime("Create_Date").toLocalTime();
-                LocalDateTime creation = LocalDateTime.of(dateCreated, timeCreated);
-                customer.setCreateDate(creation);
+                customer.setCreateDate(resultSet.getObject(6, LocalDateTime.class));
                 customer.setCreatedBy(resultSet.getString("Created_By"));
                 customer.setLastUpdated(resultSet.getTimestamp("Last_Update"));
                 customer.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));
@@ -113,10 +107,7 @@ public class CustomerImpl extends CustomerDAO{
                 customer.setAddress(resultSet.getString("Address"));
                 customer.setPostalCode(resultSet.getString("Postal_Code"));
                 customer.setPhoneNumber(resultSet.getString("Phone"));
-                LocalDate dateCreated = resultSet.getDate("Create_Date").toLocalDate();
-                LocalTime timeCreated = resultSet.getTime("Create_Date").toLocalTime();
-                LocalDateTime creation = LocalDateTime.of(dateCreated, timeCreated);
-                customer.setCreateDate(creation);
+                customer.setCreateDate(resultSet.getObject(6, LocalDateTime.class));
                 customer.setCreatedBy(resultSet.getString("Created_By"));
                 customer.setLastUpdated(resultSet.getTimestamp("Last_Update"));
                 customer.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));
@@ -143,11 +134,9 @@ public class CustomerImpl extends CustomerDAO{
             statement.setString(3, customer.getAddress());
             statement.setString(4, customer.getPostalCode());
             statement.setString(5, customer.getPhoneNumber());
-            LocalTime rightNow = LocalTime.now();
-            LocalDate today = LocalDate.now();
-            LocalDateTime now = LocalDateTime.of(today, rightNow);
+
             statement.setString(7, customer.getCreatedBy());
-            statement.setTimestamp(8, Timestamp.valueOf(now));
+            statement.setTimestamp(8, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
             statement.setString(9, customer.getLastUpdatedBy());
             statement.setInt(10, customer.getDivisionID());
             statement.execute();
