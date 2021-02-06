@@ -5,9 +5,8 @@ import javafx.collections.ObservableList;
 import model.Appointment;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 
 public class AppointmentImpl extends AppointmentDAO{
 

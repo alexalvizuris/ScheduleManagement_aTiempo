@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class FirstLevelDivision {
@@ -7,6 +8,8 @@ public class FirstLevelDivision {
     private String division;
     private LocalDateTime createDate;
     private String createdBy;
+    private Timestamp lastUpdate;
+    private String lastUpdatedBy;
     private int countryID;
 
 
@@ -49,6 +52,22 @@ public class FirstLevelDivision {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Timestamp getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
+
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
     }
 
     public int getCountryID() {

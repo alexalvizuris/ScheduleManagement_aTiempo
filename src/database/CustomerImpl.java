@@ -5,10 +5,7 @@ import javafx.collections.ObservableList;
 import model.Customer;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -134,7 +131,7 @@ public class CustomerImpl extends CustomerDAO {
             statement.setString(3, customer.getAddress());
             statement.setString(4, customer.getPostalCode());
             statement.setString(5, customer.getPhoneNumber());
-
+            statement.setTimestamp(6, Timestamp.valueOf(customer.getCreateDate()));
             statement.setString(7, customer.getCreatedBy());
             statement.setTimestamp(8, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
             statement.setString(9, customer.getLastUpdatedBy());
