@@ -1,5 +1,8 @@
-package database;
+package database.impl;
 
+import database.DBConnection;
+import database.DBQuery;
+import database.dao.AppointmentDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
@@ -8,7 +11,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 
 
-public class AppointmentImpl extends AppointmentDAO{
+public class AppointmentImpl extends AppointmentDAO {
 
     // Initializes Insert string
     private static final String INSERT = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Create_Date, " +

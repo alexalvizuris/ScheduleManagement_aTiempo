@@ -1,4 +1,4 @@
-package database;
+package database.dao;
 
 import javafx.collections.ObservableList;
 import model.Customer;

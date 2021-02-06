@@ -1,5 +1,8 @@
-package database;
+package database.impl;
 
+import database.DBConnection;
+import database.DBQuery;
+import database.dao.CustomerDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customer;
