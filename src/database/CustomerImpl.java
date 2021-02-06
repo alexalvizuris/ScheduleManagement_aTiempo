@@ -2,23 +2,33 @@ package database;
 
 import model.Customer;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 public class CustomerImpl extends CustomerDAO{
 
-    // Initializes READ string
-    private static final String INSERT = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Division_ID)" +
-            " Values (?, ?, ?, ?, ?, ?, ?)";
+    // Initializes Insert string
+    private static final String INSERT = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_by, Division_ID)" +
+            " Values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+    // Initializes Read string
     private static final String GET_CUSTOMER = "SELECT * FROM customers WHERE customerID = ?";
+
+    // Initializes Update string
+    private static final String UPDATE = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_code = ?, Create_Date = ?, " +
+            "Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
+
+    //Initializes Delete string
+    private static final String DELETE = "DELETE FROM customers WHERE Customer_ID = ?";
 
 
     @Override
@@ -61,7 +71,31 @@ public class CustomerImpl extends CustomerDAO{
 
     @Override
     public Customer update(Customer customer) {
-        return null;
+        Customer cust = null;
+        Connection conn = DBConnection.startConnection();
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE);) {
+
+            statement.setString(2, customer.getCustomerName());
+            statement.setString(3, customer.getAddress());
+            statement.setString(4, customer.getPostalCode());
+            statement.setString(5, customer.getPhoneNumber());
+            LocalTime rightNow = LocalTime.now();
+            LocalDate today = LocalDate.now();
+            LocalDateTime now = LocalDateTime.of(today, rightNow);
+            //statement.setTimestamp(6, Timestamp.valueOf(now));
+            statement.setString(7, customer.getCreatedBy());
+            statement.setTimestamp(8, Timestamp.valueOf(now));
+            statement.setInt(9, customer.getDivisionID());
+            statement.setInt(1, customer.getCustomerID());
+            statement.execute();
+            customer = this.getCustomer(customer.getCustomerID());
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        DBConnection.closeConnection();
+        return customer;
     }
 
     @Override
@@ -69,25 +103,37 @@ public class CustomerImpl extends CustomerDAO{
         Connection conn = DBConnection.startConnection();
         try {
             PreparedStatement statement = conn.prepareStatement(INSERT);
-
-            statement.setInt(1, customer.getCustomerID());
             statement.setString(2, customer.getCustomerName());
             statement.setString(3, customer.getAddress());
             statement.setString(4, customer.getPostalCode());
             statement.setString(5, customer.getPhoneNumber());
-            //Implement LocalDateTime Here!!!!
-
-
-
+            LocalTime rightNow = LocalTime.now();
+            LocalDate today = LocalDate.now();
+            LocalDateTime now = LocalDateTime.of(today, rightNow);
+            statement.setTimestamp(6, Timestamp.valueOf(now));
+            statement.setString(7, customer.getCreatedBy());
+            statement.setTimestamp(8, Timestamp.valueOf(now));
+            statement.setInt(9, customer.getDivisionID());
+            statement.execute();
+            //int id = this.getLastNum();
+            //return this.getCustomer(id);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
-        return null;
+        DBConnection.closeConnection();
+       return customer;
     }
 
     @Override
     public void delete(int customerID) {
+        Connection conn = DBConnection.startConnection();
+        try (PreparedStatement statement = conn.prepareStatement(DELETE)) {
+            statement.setInt(1, customerID);
+            statement.execute();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 

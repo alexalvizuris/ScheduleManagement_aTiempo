@@ -24,6 +24,7 @@ public class DBConnection {
         try {
             Class.forName(MYSQLJDBCDRIVER);
             conn = DriverManager.getConnection(jdbcURL, username, password);
+            System.out.println("Connection Successful!");
         } catch (ClassNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (SQLException e) {
@@ -35,6 +36,7 @@ public class DBConnection {
     public static void closeConnection() {
         try {
             conn.close();
+            System.out.println("Connection closed.");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
