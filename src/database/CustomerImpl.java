@@ -53,6 +53,8 @@ public class CustomerImpl extends CustomerDAO{
                 LocalDateTime creation = LocalDateTime.of(dateCreated, timeCreated);
                 customer.setCreateDate(creation);
                 customer.setCreatedBy(resultSet.getString("Created_By"));
+                customer.setLastUpdated(resultSet.getTimestamp("Last_Update"));
+                customer.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));
                 customer.setDivisionID(resultSet.getInt("Division_ID"));
                 return customer;
             }
@@ -71,10 +73,11 @@ public class CustomerImpl extends CustomerDAO{
 
     @Override
     public Customer update(Customer customer) {
-        Customer cust = null;
+        Customer tempCus = null;
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(UPDATE);) {
 
+            //statement.setInt(1, customer.getCustomerID());
             statement.setString(2, customer.getCustomerName());
             statement.setString(3, customer.getAddress());
             statement.setString(4, customer.getPostalCode());
@@ -83,26 +86,26 @@ public class CustomerImpl extends CustomerDAO{
             LocalDate today = LocalDate.now();
             LocalDateTime now = LocalDateTime.of(today, rightNow);
             //statement.setTimestamp(6, Timestamp.valueOf(now));
-            statement.setString(7, customer.getCreatedBy());
+            //statement.setString(7, customer.getCreatedBy());
             statement.setTimestamp(8, Timestamp.valueOf(now));
-            statement.setInt(9, customer.getDivisionID());
-            statement.setInt(1, customer.getCustomerID());
+            statement.setString(9, "admin");
+            statement.setInt(10, customer.getDivisionID());
             statement.execute();
-            customer = this.getCustomer(customer.getCustomerID());
+            tempCus = this.getCustomer(customer.getCustomerID());
 
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         DBConnection.closeConnection();
-        return customer;
+        return tempCus;
     }
 
     @Override
     public Customer create(Customer customer) {
         Connection conn = DBConnection.startConnection();
-        try {
-            PreparedStatement statement = conn.prepareStatement(INSERT);
+        try (PreparedStatement statement = conn.prepareStatement(INSERT);) {
+
             statement.setString(2, customer.getCustomerName());
             statement.setString(3, customer.getAddress());
             statement.setString(4, customer.getPostalCode());
@@ -113,10 +116,10 @@ public class CustomerImpl extends CustomerDAO{
             statement.setTimestamp(6, Timestamp.valueOf(now));
             statement.setString(7, customer.getCreatedBy());
             statement.setTimestamp(8, Timestamp.valueOf(now));
-            statement.setInt(9, customer.getDivisionID());
+            statement.setString(9, customer.getLastUpdatedBy());
+            statement.setInt(10, customer.getDivisionID());
             statement.execute();
-            //int id = this.getLastNum();
-            //return this.getCustomer(id);
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
