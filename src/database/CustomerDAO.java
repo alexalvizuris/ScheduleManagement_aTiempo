@@ -1,5 +1,6 @@
 package database;
 
+import javafx.collections.ObservableList;
 import model.Customer;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ public abstract class CustomerDAO {
     }
 
     public abstract Customer getCustomer(int customerID);
-    public abstract List<Customer> allCustomers();
+    public abstract ObservableList<Customer> allCustomers();
     public abstract Customer update(Customer customer);
     public abstract Customer create(Customer customer);
     public abstract void delete(int customerID);
