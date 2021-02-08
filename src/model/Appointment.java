@@ -20,18 +20,17 @@ public class Appointment {
     private int userID;
     private int customerID;
 
-    public Appointment(int appointmentID, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end, LocalDateTime createDate, String createdBy, int contactID, int customerID) {
-        this.appointmentID = appointmentID;
+    public Appointment(String title, String description, String location, String type, LocalDateTime start, LocalDateTime end) {
+
         this.title = title;
         this.description = description;
         this.location = location;
         this.type = type;
         this.start = start;
         this.end = end;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
-        this.contactID = contactID;
-        this.customerID = customerID;
+
+
+
     }
 
     public int getAppointmentID() {

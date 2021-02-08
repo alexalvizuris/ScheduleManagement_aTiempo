@@ -2,12 +2,13 @@ package database.impl;
 
 import database.DBConnection;
 import database.DBQuery;
-import database.dao.FirstLevelDivisionDAO;
+import database.interfaces.FirstLevelDivisionDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.FirstLevelDivision;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class FirstLevelDivisionImpl extends FirstLevelDivisionDAO {
 
     //Initiate Read string
-    private static final String GET_DIVISION = "SELECT * FROM first_level_divisions WHERE division_ID = ?";
+    private static final String GET_DIVISION = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
 
 
     //Initiate Read All string
@@ -23,12 +24,12 @@ public class FirstLevelDivisionImpl extends FirstLevelDivisionDAO {
 
 
     @Override
-    public FirstLevelDivision getDivision(FirstLevelDivision firstLevelDivision) {
+    public FirstLevelDivision getDivision(int firstLevelDivisionID) {
         Connection conn = DBConnection.startConnection();
         FirstLevelDivision division = null;
-        try {
-            DBQuery.setPreparedStatement(conn, GET_DIVISION);
+        try (PreparedStatement statement = conn.prepareStatement(GET_DIVISION)) {
             ResultSet resultSet = DBQuery.getPreparedStatement().getResultSet();
+            statement.setInt(1, firstLevelDivisionID);
 
             division.setDivisionID(resultSet.getInt("Division_ID"));
             division.setDivision(resultSet.getString("Division"));

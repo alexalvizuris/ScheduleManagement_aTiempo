@@ -2,7 +2,7 @@ package database.impl;
 
 import database.DBConnection;
 import database.DBQuery;
-import database.dao.CustomerDAO;
+import database.interfaces.CustomerDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customer;
@@ -22,7 +22,7 @@ public class CustomerImpl extends CustomerDAO {
             " Values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     // Initializes Read string
-    private static final String GET_CUSTOMER = "SELECT * FROM customers WHERE customerID = ?";
+    private static final String GET_CUSTOMER = "SELECT * FROM customers WHERE Customer_ID = ?";
 
     //Initializes Read All string
     private static final String GET_ALL = "SELECT * FROM customers";
@@ -66,10 +66,9 @@ public class CustomerImpl extends CustomerDAO {
         // Establish connection to the database
         Connection conn = DBConnection.startConnection();
         Customer customer = null;
-        try {
-            // Establish PreparedStatement
-            DBQuery.setPreparedStatement(conn, GET_CUSTOMER);
+        try (PreparedStatement statement = conn.prepareStatement(GET_CUSTOMER)) {
             ResultSet resultSet = DBQuery.getPreparedStatement().getResultSet();
+            statement.setInt(1, customerID);
 
             while (resultSet.next()) {
                 customer.setCustomerID(resultSet.getInt("Customer_ID"));
