@@ -40,15 +40,15 @@ public class CustomerImpl extends CustomerDAO {
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(INSERT)) {
 
-            statement.setString(2, customer.getCustomerName());
-            statement.setString(3, customer.getAddress());
-            statement.setString(4, customer.getPostalCode());
-            statement.setString(5, customer.getPhoneNumber());
-            statement.setTimestamp(6, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
-            statement.setString(7, customer.getCreatedBy());
-            statement.setTimestamp(8, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
-            statement.setString(9, customer.getLastUpdatedBy());
-            statement.setInt(10, customer.getDivisionID());
+            statement.setString(1, customer.getCustomerName());
+            statement.setString(2, customer.getAddress());
+            statement.setString(3, customer.getPostalCode());
+            statement.setString(4, customer.getPhoneNumber());
+            statement.setTimestamp(5, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+            statement.setString(6, customer.getCreatedBy());
+            statement.setTimestamp(7, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+            statement.setString(8, customer.getLastUpdatedBy());
+            statement.setInt(9, customer.getDivisionID());
             statement.execute();
 
         } catch (SQLException e) {
@@ -129,16 +129,16 @@ public class CustomerImpl extends CustomerDAO {
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
 
-            statement.setInt(1, customer.getCustomerID());
-            statement.setString(2, customer.getCustomerName());
-            statement.setString(3, customer.getAddress());
-            statement.setString(4, customer.getPostalCode());
-            statement.setString(5, customer.getPhoneNumber());
-            statement.setTimestamp(6, Timestamp.valueOf(customer.getCreateDate()));
-            statement.setString(7, customer.getCreatedBy());
-            statement.setTimestamp(8, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
-            statement.setString(9, customer.getLastUpdatedBy());
-            statement.setInt(10, customer.getDivisionID());
+            statement.setString(1, customer.getCustomerName());
+            statement.setString(2, customer.getAddress());
+            statement.setString(3, customer.getPostalCode());
+            statement.setString(4, customer.getPhoneNumber());
+            statement.setTimestamp(5, Timestamp.valueOf(customer.getCreateDate()));
+            statement.setString(6, customer.getCreatedBy());
+            statement.setTimestamp(7, java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
+            statement.setString(8, customer.getLastUpdatedBy());
+            statement.setInt(9, customer.getDivisionID());
+            statement.setInt(10, customer.getCustomerID());
             statement.execute();
             tempCus = this.getCustomer(customer.getCustomerID());
 

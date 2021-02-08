@@ -136,20 +136,21 @@ public class AppointmentImpl extends AppointmentDAO {
         Appointment tempAppt = null;
         try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
 
-            statement.setInt(1, appointment.getAppointmentID());
-            statement.setString(2, appointment.getTitle());
-            statement.setString(3, appointment.getDescription());
-            statement.setString(4, appointment.getLocation());
-            statement.setString(5, appointment.getType());
-            statement.setTimestamp(6, Timestamp.valueOf(appointment.getStart()));
-            statement.setTimestamp(7, Timestamp.valueOf(appointment.getEnd()));
-            statement.setTimestamp(8, Timestamp.valueOf(appointment.getCreateDate()));
-            statement.setString(9, appointment.getCreatedBy());
-            statement.setTimestamp(10, appointment.getLastUpdate());
-            statement.setString(11, appointment.getLastUpdatedBy());
-            statement.setInt(12, appointment.getCustomerID());
-            statement.setInt(13, appointment.getUserID());
-            statement.setInt(14, appointment.getContactID());
+            statement.setString(1, appointment.getTitle());
+            statement.setString(2, appointment.getDescription());
+            statement.setString(3, appointment.getLocation());
+            statement.setString(4, appointment.getType());
+            statement.setTimestamp(5, Timestamp.valueOf(appointment.getStart()));
+            statement.setTimestamp(6, Timestamp.valueOf(appointment.getEnd()));
+            statement.setTimestamp(7, Timestamp.valueOf(appointment.getCreateDate()));
+            statement.setString(8, appointment.getCreatedBy());
+            statement.setTimestamp(9, appointment.getLastUpdate());
+            statement.setString(10, appointment.getLastUpdatedBy());
+            statement.setInt(11, appointment.getCustomerID());
+            statement.setInt(12, appointment.getUserID());
+            statement.setInt(13, appointment.getContactID());
+            statement.setInt(14, appointment.getAppointmentID());
+            statement.execute();
 
             tempAppt = this.getAppt(appointment.getAppointmentID());
 
