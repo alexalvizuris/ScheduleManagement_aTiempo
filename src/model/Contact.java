@@ -6,8 +6,8 @@ public class Contact {
     private String contactName;
     private String contactEmail;
 
-    public Contact(int contactID, String contactName, String contactEmail) {
-        this.contactID = contactID;
+    public Contact(String contactName, String contactEmail) {
+
         this.contactName = contactName;
         this.contactEmail = contactEmail;
     }

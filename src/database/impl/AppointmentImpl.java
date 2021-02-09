@@ -112,9 +112,8 @@ public class AppointmentImpl implements AppointmentDAO {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         Connection conn = DBConnection.startConnection();
 
-        try {
-            DBQuery.setPreparedStatement(conn, GET_ALL);
-            ResultSet resultSet = DBQuery.getPreparedStatement().getResultSet();
+        try (PreparedStatement statement = conn.prepareStatement(GET_ALL)) {
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
 
                 int id = resultSet.getInt("Appointment_ID");

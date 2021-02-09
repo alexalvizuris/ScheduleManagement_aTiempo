@@ -1,7 +1,7 @@
 package database.impl;
 
 import database.DBConnection;
-import database.DBQuery;
+
 import database.interfaces.ContactDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,26 +50,32 @@ public class ContactImpl implements ContactDAO {
     }
 
 
-// fix all this shit okay
+
 
     public Contact getContact(int contactID) {
         Connection conn = DBConnection.startConnection();
-        Contact contact = null;
+
 
         try (PreparedStatement statement = conn.prepareStatement(GET_CONTACT)) {
-            ResultSet resultSet = DBQuery.getPreparedStatement().getResultSet();
+            ResultSet resultSet = statement.executeQuery();
             statement.setInt(1, contactID);
 
-            contact.setContactID(resultSet.getInt("Contact_ID"));
-            contact.setContactName(resultSet.getString("Contact_Name"));
-            contact.setContactEmail(resultSet.getString("Email"));
+            while (resultSet.next()) {
 
+                int id = resultSet.getInt("Contact_ID");
+                String name = resultSet.getString("Contact_Name");
+                String email = resultSet.getString("Email");
 
+                Contact contact = new Contact(name, email);
+                contact.setContactID(id);
+
+                return contact;
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         DBConnection.closeConnection();
-        return contact;
+        return null;
     }
 
 
@@ -79,16 +85,19 @@ public class ContactImpl implements ContactDAO {
 
         Connection conn = DBConnection.startConnection();
         ObservableList<Contact> contactList = FXCollections.observableArrayList();
-        try {
-            Contact contact = null;
-            DBQuery.setPreparedStatement(conn, GET_ALL_CONTACTS);
-            ResultSet resultSet = DBQuery.getPreparedStatement().getResultSet();
+        try (PreparedStatement statement = conn.prepareStatement(GET_ALL_CONTACTS)) {
 
-            contact.setContactID(resultSet.getInt("Contact_ID"));
-            contact.setContactName(resultSet.getString("Contact_Name"));
-            contact.setContactEmail(resultSet.getString("Email"));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("Contact_ID");
+                String name = resultSet.getString("Contact_Name");
+                String email = resultSet.getString("Email");
 
-            contactList.add(contact);
+                Contact contact = new Contact(name, email);
+                contact.setContactID(id);
+
+                contactList.add(contact);
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
