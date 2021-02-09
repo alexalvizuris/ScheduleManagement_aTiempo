@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="912.0" styleClass="root" stylesheets="@style_background.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="912.0" styleClass="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="300.0" layoutY="99.0" prefHeight="379.0" prefWidth="312.0" spacing="30.0" style="-fx-background-color: ffffff;">
          <children>
@@ -27,8 +26,7 @@
             <TextField layoutX="10.0" layoutY="182.0" maxWidth="-Infinity" prefHeight="36.0" prefWidth="270.0" promptText="password" />
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
-                  <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="90.0" text="Sign-In" />
-                  <Button layoutX="121.0" layoutY="27.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="90.0" text="New User" />
+                  <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="100.0" text="Sign-In" />
                </children>
             </HBox>
          </children>
