@@ -13,12 +13,11 @@ public class User {
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
 
-    public User(int userId, String userName, String password, LocalDateTime createDate, String createdBy) {
-        this.userId = userId;
+    public User(String userName, String password) {
+
         this.userName = userName;
         this.password = password;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
+
     }
 
     public int getUserId() {

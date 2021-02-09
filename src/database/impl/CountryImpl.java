@@ -7,13 +7,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Country;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 
-public class CountryImpl extends CountryDAO {
+public class CountryImpl implements CountryDAO {
 
     // Initialize Read string
     private static final String GET_COUNTRY = "SELECT * FROM countries WHERE Country_ID = ?";
@@ -21,46 +18,65 @@ public class CountryImpl extends CountryDAO {
     // Initialize Read All string
     private static final String GET_ALL = "SELECT * FROM countries";
 
-    @Override
+
+
+
     public Country getCountry(int countryID) {
         Connection conn = DBConnection.startConnection();
-        Country country = null;
+
         try (PreparedStatement statement = conn.prepareStatement(GET_COUNTRY)) {
-            ResultSet resultSet = DBQuery.getPreparedStatement().getResultSet();
+            ResultSet resultSet = statement.executeQuery();
             statement.setInt(1, countryID);
 
-            country.setCountryID(resultSet.getInt( "Country_ID"));
-            country.setCountryName(resultSet.getString("Country"));
-            country.setCreateDate(resultSet.getObject("Create_Date", LocalDateTime.class));
-            country.setCreatedBy(resultSet.getString("Created_By"));
-            country.setLastUpdate(resultSet.getTimestamp("Last_Update"));
-            country.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));
+            while (resultSet.next()) {
+                int id = resultSet.getInt("Country_ID");
+                String name = resultSet.getString("Country");
+                LocalDateTime create = resultSet.getObject("Create_Date", LocalDateTime.class);
+                String createdBy = resultSet.getString("Created_By");
+                Timestamp lastUpdate = resultSet.getTimestamp("Last_Update");
+                String updatedBy = resultSet.getString("Last_Updated_By");
+
+                Country country = new Country(name);
+                country.setCountryID(id);
+                country.setCreateDate(create);
+                country.setCreatedBy(createdBy);
+                country.setLastUpdate(lastUpdate);
+                country.setLastUpdatedBy(updatedBy);
+
+                return country;
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         DBConnection.closeConnection();
-        return country;
+        return null;
     }
 
 
 
-    @Override
+
     public ObservableList<Country> getAllCountries() {
         Connection conn = DBConnection.startConnection();
         ObservableList<Country> countries = FXCollections.observableArrayList();
-        try {
-            Country country = null;
-            DBQuery.setPreparedStatement(conn, GET_ALL);
-            ResultSet resultSet = DBQuery.getPreparedStatement().getResultSet();
+        try (PreparedStatement statement = conn.prepareStatement(GET_ALL)) {
+            ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                country.setCountryID(resultSet.getInt("Country_ID"));
-                country.setCountryName(resultSet.getString("Country"));
-                country.setCreateDate(resultSet.getObject("Create_Date", LocalDateTime.class));
-                country.setCreatedBy(resultSet.getString("Created_By"));
-                country.setLastUpdate(resultSet.getTimestamp("Last_Update"));
-                country.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));
+                int id = resultSet.getInt("Country_ID");
+                String name = resultSet.getString("Country");
+                LocalDateTime create = resultSet.getObject("Create_Date", LocalDateTime.class);
+                String createdBy = resultSet.getString("Created_By");
+                Timestamp lastUpdate = resultSet.getTimestamp("Last_Update");
+                String updatedBy = resultSet.getString("Last_Updated_By");
+
+                Country country = new Country(name);
+                country.setCountryID(id);
+                country.setCreateDate(create);
+                country.setCreatedBy(createdBy);
+                country.setLastUpdate(lastUpdate);
+                country.setLastUpdatedBy(updatedBy);
+
                 countries.add(country);
             }
         } catch (SQLException e) {

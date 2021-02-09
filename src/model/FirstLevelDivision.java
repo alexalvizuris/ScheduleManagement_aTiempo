@@ -14,12 +14,10 @@ public class FirstLevelDivision {
 
 
 
-    public FirstLevelDivision(int divisionID, String division, LocalDateTime createDate, String createdBy, int countryID) {
-        this.divisionID = divisionID;
+    public FirstLevelDivision(String division) {
+
         this.division = division;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
-        this.countryID = countryID;
+
     }
 
     public int getDivisionID() {

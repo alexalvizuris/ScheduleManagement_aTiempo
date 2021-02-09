@@ -1,19 +1,15 @@
 package database.impl;
 
 import database.DBConnection;
-import database.DBQuery;
 import database.interfaces.FirstLevelDivisionDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.FirstLevelDivision;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 
-public class FirstLevelDivisionImpl extends FirstLevelDivisionDAO {
+public class FirstLevelDivisionImpl implements FirstLevelDivisionDAO {
 
     //Initiate Read string
     private static final String GET_DIVISION = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
@@ -23,46 +19,67 @@ public class FirstLevelDivisionImpl extends FirstLevelDivisionDAO {
     private static final String GET_ALL = "SELECT * FROM first_level_divisions";
 
 
-    @Override
+
     public FirstLevelDivision getDivision(int firstLevelDivisionID) {
         Connection conn = DBConnection.startConnection();
-        FirstLevelDivision division = null;
+
         try (PreparedStatement statement = conn.prepareStatement(GET_DIVISION)) {
-            ResultSet resultSet = DBQuery.getPreparedStatement().getResultSet();
+            ResultSet resultSet = statement.executeQuery();
             statement.setInt(1, firstLevelDivisionID);
 
-            division.setDivisionID(resultSet.getInt("Division_ID"));
-            division.setDivision(resultSet.getString("Division"));
-            division.setCreateDate(resultSet.getObject("Create_Date", LocalDateTime.class));
-            division.setCreatedBy(resultSet.getString("Created_By"));
-            division.setLastUpdate(resultSet.getTimestamp("Last_Update"));
-            division.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));
-            division.setCountryID(resultSet.getInt("Country_ID"));
+            while (resultSet.next()) {
+                int id = resultSet.getInt("Division_ID");
+                String name = resultSet.getString("Division");
+                LocalDateTime created = resultSet.getObject("Create_Date", LocalDateTime.class);
+                String createdBy = resultSet.getString("Created_By");
+                Timestamp updated = resultSet.getTimestamp("Last_Update");
+                String updatedBy = resultSet.getString("Last_Updated_By");
+                int countryID = resultSet.getInt("Country_ID");
+
+                FirstLevelDivision division = new FirstLevelDivision(name);
+                division.setDivisionID(id);
+                division.setCreateDate(created);
+                division.setCreatedBy(createdBy);
+                division.setLastUpdate(updated);
+                division.setLastUpdatedBy(updatedBy);
+                division.setCountryID(countryID);
+
+                return division;
+            }
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         DBConnection.closeConnection();
-        return division;
+        return null;
     }
 
-    @Override
+
     public ObservableList<FirstLevelDivision> getAllDivisions() {
 
         Connection conn = DBConnection.startConnection();
         ObservableList<FirstLevelDivision> tempList = FXCollections.observableArrayList();
-        try {
-            FirstLevelDivision division = null;
-            DBQuery.setPreparedStatement(conn, GET_ALL);
-            ResultSet resultSet = DBQuery.getPreparedStatement().getResultSet();
+        try (PreparedStatement statement = conn.prepareStatement(GET_ALL)) {
+            ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                division.setDivisionID(resultSet.getInt("Division_ID"));
-                division.setDivision(resultSet.getString("Division"));
-                division.setCreateDate(resultSet.getObject("Create_Date", LocalDateTime.class));
-                division.setCreatedBy(resultSet.getString("Created_By"));
-                division.setLastUpdate(resultSet.getTimestamp("Last_Update"));
-                division.setLastUpdatedBy(resultSet.getString("Last_Updated_By"));
-                division.setCountryID(resultSet.getInt("Country_ID"));
+                int id = resultSet.getInt("Division_ID");
+                String name = resultSet.getString("Division");
+                LocalDateTime created = resultSet.getObject("Create_Date", LocalDateTime.class);
+                String createdBy = resultSet.getString("Created_By");
+                Timestamp updated = resultSet.getTimestamp("Last_Update");
+                String updatedBy = resultSet.getString("Last_Updated_By");
+                int countryID = resultSet.getInt("Country_ID");
+
+                FirstLevelDivision division = new FirstLevelDivision(name);
+                division.setDivisionID(id);
+                division.setCreateDate(created);
+                division.setCreatedBy(createdBy);
+                division.setLastUpdate(updated);
+                division.setLastUpdatedBy(updatedBy);
+                division.setCountryID(countryID);
+
+
                 tempList.add(division);
             }
         } catch (SQLException e) {

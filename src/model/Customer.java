@@ -15,18 +15,13 @@ public class Customer {
     private String lastUpdatedBy;
     private int divisionID;
 
-    public Customer(int customerID, String customerName, String address, String postalCode, String phoneNumber, LocalDateTime createDate, String createdBy, Timestamp lastUpdated, String lastUpdatedBy, int divisionID) {
+    public Customer(String customerName, String address, String postalCode, String phoneNumber) {
 
-        this.customerID = customerID;
+
         this.customerName = customerName;
         this.address = address;
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
-        this.lastUpdated = lastUpdated;
-        this.lastUpdatedBy = lastUpdatedBy;
-        this.divisionID = divisionID;
 
     }
 

@@ -5,20 +5,14 @@ import model.Customer;
 
 
 
-public abstract class CustomerDAO {
+public interface CustomerDAO {
 
 
-
-    public CustomerDAO() {
-        super();
-
-    }
-
-    public abstract Customer create(Customer customer);
-    public abstract Customer getCustomer(int customerID);
-    public abstract ObservableList<Customer> allCustomers();
-    public abstract Customer update(Customer customer);
-    public abstract void delete(int customerID);
+    Customer create(Customer customer);
+    Customer getCustomer(int customerID);
+    ObservableList<Customer> allCustomers();
+    void update(Customer customer);
+    void delete(int customerID);
 
 
 

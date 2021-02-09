@@ -3,16 +3,12 @@ package database.interfaces;
 import javafx.collections.ObservableList;
 import model.FirstLevelDivision;
 
-public abstract class FirstLevelDivisionDAO {
+public interface FirstLevelDivisionDAO {
 
-    public FirstLevelDivisionDAO() {
-        super();
 
-    }
+    FirstLevelDivision getDivision(int firstLevelDivisionID);
 
-    public abstract FirstLevelDivision getDivision(int firstLevelDivisionID);
-
-    public abstract ObservableList<FirstLevelDivision> getAllDivisions();
+    ObservableList<FirstLevelDivision> getAllDivisions();
 
 
 }

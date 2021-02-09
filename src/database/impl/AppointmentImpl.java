@@ -167,7 +167,7 @@ public class AppointmentImpl implements AppointmentDAO {
             LocalDateTime end = appointment.getEnd();
             LocalDateTime createDate = appointment.getCreateDate();
             String createdBy = appointment.getCreatedBy();
-            Timestamp update = appointment.getLastUpdate();
+            Timestamp update = java.sql.Timestamp.valueOf(java.time.LocalDateTime.now());
             String updatedBy = appointment.getLastUpdatedBy();
             int customerId = appointment.getCustomerID();
             int userId = appointment.getUserID();

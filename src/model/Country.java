@@ -12,11 +12,10 @@ public class Country {
     private Timestamp lastUpdate;
     private String lastUpdatedBy;
 
-    public Country(int countryID, String countryName, LocalDateTime createDate, String createdBy) {
-        this.countryID = countryID;
+    public Country(String countryName) {
+
         this.countryName = countryName;
-        this.createDate = createDate;
-        this.createdBy = createdBy;
+
     }
 
     public int getCountryID() {
