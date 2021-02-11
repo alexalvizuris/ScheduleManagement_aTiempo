@@ -17,8 +17,8 @@
    <children>
       <VBox alignment="CENTER" layoutY="158.0" prefHeight="321.0" prefWidth="161.0" spacing="60.0">
          <children>
-            <Button fx:id="newAppointmentButton" mnemonicParsing="false" text="New Appointment" onAction= "#newAppointmentSelected"/>
-            <Button fx:id="newCustomerButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="117.0" text="New Customer" onAction="#newCustomerSelected"/>
+            <Button fx:id="newAppointmentButton" mnemonicParsing="false" onAction="#newAppointmentSelected" text="New Appointment" />
+            <Button fx:id="newCustomerButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#newCustomerSelected" prefWidth="117.0" text="New Customer" />
             <Button fx:id="reportsButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="117.0" text="Reports" />
          </children>
          <padding>
@@ -41,10 +41,10 @@
         </columns>
       </TableView>
       <Separator layoutX="173.0" layoutY="-6.0" orientation="VERTICAL" prefHeight="599.0" prefWidth="6.0" />
-      <MenuButton fx:id="tableSelection" layoutX="202.0" layoutY="98.0" mnemonicParsing="false" text="View Customers">
+      <MenuButton fx:id="tableSelection" layoutX="202.0" layoutY="98.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="145.0" text="View Customers">
         <items>
-          <MenuItem fx:id="viewCustomers" mnemonicParsing="false" text="View Customers" />
-          <MenuItem fx:id="viewAppointments" mnemonicParsing="false" text="View Appointments" />
+          <MenuItem fx:id="viewCustomers" mnemonicParsing="false" onAction="#viewCustomerTable" text="View Customers" />
+          <MenuItem fx:id="viewAppointments" mnemonicParsing="false" onAction="#viewAppointmentTable" text="View Appointments" />
         </items>
       </MenuButton>
       <Button fx:id="deleteButton" layoutX="1068.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" />
@@ -56,5 +56,15 @@
             <Font name="Nadeem Regular" size="36.0" />
          </font>
       </Label>
+      <TableView fx:id="customerTable" disable="true" layoutX="202.0" layoutY="147.0" prefHeight="378.0" prefWidth="956.0" visible="false">
+        <columns>
+          <TableColumn fx:id="custID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="custName" prefWidth="165.0" text="Name" />
+            <TableColumn fx:id="custAddress" prefWidth="207.0" text="Address" />
+            <TableColumn fx:id="custPostal" prefWidth="154.0" text="Postal Code" />
+            <TableColumn fx:id="custDivision" prefWidth="173.0" text="Division" />
+            <TableColumn fx:id="custPhone" prefWidth="181.0" text="Phone" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

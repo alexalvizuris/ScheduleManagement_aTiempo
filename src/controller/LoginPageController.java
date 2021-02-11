@@ -10,15 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.User;
 
 import java.io.IOException;
-import java.sql.SQLException;
+
 
 public class LoginPageController {
 
@@ -37,15 +34,14 @@ public class LoginPageController {
 
     public void signInSelected(ActionEvent event) throws IOException {
 
-     try {
          UserImpl implement = new UserImpl();
          ObservableList<User> acceptableUsers = implement.getAllUsers();
          String usernameInput = username.getText();
          String passwordInput = password.getText();
-
+        int count = 0;
          for (int i = 0; i < acceptableUsers.size(); i++) {
              if (acceptableUsers.get(i).getUserName().equals(usernameInput) && acceptableUsers.get(i).getPassword().equals(passwordInput)) {
-
+                 count += 1;
                  Parent signInParent = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
                  Scene signInScene = new Scene(signInParent);
 
@@ -55,11 +51,12 @@ public class LoginPageController {
              }
 
          }
-     } catch (Exception e) {
-         System.out.println(e.getMessage());
-     }
-
-
+        if (count == 0) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Login Error");
+            alert.setContentText("The username or password was incorrect. Please try again.");
+            alert.showAndWait();
+        }
 
     }
 

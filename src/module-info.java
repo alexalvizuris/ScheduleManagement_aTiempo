@@ -11,4 +11,9 @@ module ScheduleManagement.aTiempo {
    // opens utility;
     opens view;
 
+    opens database;
+
+    opens model;
+
+
 }

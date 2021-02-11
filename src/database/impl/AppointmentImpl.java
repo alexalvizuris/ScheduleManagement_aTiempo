@@ -86,6 +86,7 @@ public class AppointmentImpl implements AppointmentDAO {
                 int contactId = resultSet.getInt("Contact_ID");
 
                 Appointment appt = new Appointment(title, description, location, type, start, end);
+                appt.setAppointmentID(id);
                 appt.setCreateDate(createDate);
                 appt.setCreatedBy(createdBy);
                 appt.setLastUpdate(update);
@@ -93,6 +94,7 @@ public class AppointmentImpl implements AppointmentDAO {
                 appt.setCustomerID(customerId);
                 appt.setUserID(userId);
                 appt.setContactID(contactId);
+
 
                 return appt;
 
@@ -132,6 +134,7 @@ public class AppointmentImpl implements AppointmentDAO {
                 int contactId = resultSet.getInt("Contact_ID");
 
                 Appointment appt = new Appointment(title, description, location, type, start, end);
+                appt.setAppointmentID(id);
                 appt.setCreateDate(createDate);
                 appt.setCreatedBy(createdBy);
                 appt.setLastUpdate(update);
