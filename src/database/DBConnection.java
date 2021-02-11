@@ -8,7 +8,7 @@ public class DBConnection {
     // JDBC URL PARTS
     private static final String protocol = "jdbc";
     private static final String vendorName = ":mysql:";
-    private static final String ipAddress = "//wgudb.ucertify.com/3306/WJ061Y1";
+    private static final String ipAddress = "//wgudb.ucertify.com:3306/WJ061Y1";
 
     // JDBC URL
     private static final String jdbcURL = protocol + vendorName + ipAddress;

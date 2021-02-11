@@ -6,10 +6,10 @@ import model.Appointment;
 public interface AppointmentDAO {
 
 
-    public Appointment create(Appointment appointment);
-    public Appointment getAppt(int appointmentID);
-    public ObservableList<Appointment> getAllAppt();
-    public void update(Appointment appointment);
-    public void delete(int appointmentID);
+    Appointment create(Appointment appointment);
+    Appointment getAppt(int appointmentID);
+    ObservableList<Appointment> getAllAppt();
+    void update(Appointment appointment);
+    void delete(int appointmentID);
 
 }
