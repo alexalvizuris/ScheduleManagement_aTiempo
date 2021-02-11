@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="698.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="698.0" prefWidth="725.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddAppointmentController">
    <children>
       <Label layoutX="21.0" layoutY="6.0" text="New Appointment" textFill="#837c7c">
          <font>
@@ -38,7 +38,7 @@
       <Label layoutX="182.0" layoutY="445.0" text="User ID" />
       <Label layoutX="182.0" layoutY="484.0" text="Customer" />
       <Label layoutX="182.0" layoutY="525.0" text="Contact " />
-      <Button layoutX="277.0" layoutY="572.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="90.0" text="Save" />
+      <Button layoutX="277.0" layoutY="572.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="90.0" text="Save" onAction="#addApptSaveSelected"/>
       <Button layoutX="382.0" layoutY="572.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="90.0" text="Cancel" />
    </children>
 </AnchorPane>
