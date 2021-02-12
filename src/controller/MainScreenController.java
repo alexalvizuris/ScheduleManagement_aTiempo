@@ -165,6 +165,27 @@ public class MainScreenController {
 
     }
 
+    public void updateSelected(ActionEvent event) throws IOException {
+
+        if (!weekRadioButton.isDisabled()) {
+            FXMLLoader loader = new FXMLLoader();
+
+            loader.setLocation(getClass().getResource("/view/updateAppointment.fxml"));
+            Parent updateParent = loader.load();
+            Scene modifyScene = new Scene(updateParent);
+
+            UpdateAppointmentController controller = loader.getController();
+            controller.initApptData(mainTableView.getSelectionModel().getSelectedItem());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(modifyScene);
+            stage.show();
+
+        }
+
+    }
+
+
     public void initialize() {
         AppointmentImpl implement = new AppointmentImpl();
         mainTableView.setItems(implement.getAllAppt());

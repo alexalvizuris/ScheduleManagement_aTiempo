@@ -48,7 +48,7 @@
         </items>
       </MenuButton>
       <Button fx:id="deleteButton" layoutX="1068.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" />
-      <Button fx:id="updateButton" layoutX="915.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Update" />
+      <Button fx:id="updateButton" layoutX="915.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Update" onAction="#updateSelected"/>
       <RadioButton fx:id="monthRadioButton" layoutX="1068.0" layoutY="103.0" mnemonicParsing="false" text="By Month" />
       <RadioButton fx:id="weekRadioButton" layoutX="923.0" layoutY="103.0" mnemonicParsing="false" text="By Week" />
       <Label fx:id="mainLabel" layoutX="202.0" layoutY="22.0" prefHeight="64.0" prefWidth="309.0" text="Appointments" textFill="#837c7c">
