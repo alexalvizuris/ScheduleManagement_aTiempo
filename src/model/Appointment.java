@@ -144,4 +144,9 @@ public class Appointment {
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
+
+    @Override
+    public String toString() {
+        return (String.valueOf(appointmentID));
+    }
 }

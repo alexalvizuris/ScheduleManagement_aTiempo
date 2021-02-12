@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
@@ -17,28 +17,28 @@
          </font>
       </Label>
       <Label layoutX="182.0" layoutY="139.0" text="Title" />
-      <TextField layoutX="277.0" layoutY="134.0" prefHeight="27.0" prefWidth="189.0" />
+      <TextField fx:id="newTitle" layoutX="277.0" layoutY="134.0" prefHeight="27.0" prefWidth="189.0" />
       <Label layoutX="182.0" layoutY="169.0" text="Description" />
-      <TextArea layoutX="277.0" layoutY="169.0" prefHeight="96.0" prefWidth="240.0" />
+      <TextArea fx:id="newDescription" layoutX="277.0" layoutY="169.0" prefHeight="96.0" prefWidth="240.0" />
       <Label layoutX="182.0" layoutY="278.0" text="Location" />
-      <TextField layoutX="277.0" layoutY="273.0" prefHeight="27.0" prefWidth="189.0" />
-      <TextField layoutX="277.0" layoutY="311.0" prefHeight="27.0" prefWidth="189.0" />
+      <TextField fx:id="newLocation" layoutX="277.0" layoutY="273.0" prefHeight="27.0" prefWidth="189.0" />
+      <TextField fx:id="newType" layoutX="277.0" layoutY="311.0" prefHeight="27.0" prefWidth="189.0" />
       <Label layoutX="182.0" layoutY="316.0" text="Type" />
-      <DatePicker layoutX="277.0" layoutY="355.0" prefHeight="27.0" prefWidth="102.0" promptText="Date" />
-      <DatePicker layoutX="277.0" layoutY="396.0" prefHeight="27.0" prefWidth="102.0" promptText="Date" />
+      <DatePicker fx:id="newStartDate" layoutX="277.0" layoutY="355.0" prefHeight="27.0" prefWidth="102.0" promptText="Date" />
+      <DatePicker fx:id="newEndDate" layoutX="277.0" layoutY="396.0" prefHeight="27.0" prefWidth="102.0" promptText="Date" />
       <Label layoutX="182.0" layoutY="360.0" text="Start" />
       <Label layoutX="182.0" layoutY="401.0" text="End" />
-      <TextField layoutX="486.0" layoutY="355.0" prefHeight="27.0" prefWidth="102.0" promptText="HH : MM" />
-      <TextField layoutX="486.0" layoutY="396.0" prefHeight="27.0" prefWidth="102.0" promptText="HH : MM" />
+      <TextField fx:id="newStartTime" layoutX="486.0" layoutY="355.0" prefHeight="27.0" prefWidth="102.0" promptText="HH : MM" />
+      <TextField fx:id="newEndTime" layoutX="486.0" layoutY="396.0" prefHeight="27.0" prefWidth="102.0" promptText="HH : MM" />
       <Label layoutX="438.0" layoutY="360.0" text="Time" />
       <Label layoutX="438.0" layoutY="401.0" text="Time" />
-      <ChoiceBox layoutX="277.0" layoutY="440.0" prefWidth="150.0" />
-      <ChoiceBox layoutX="277.0" layoutY="479.0" prefWidth="150.0" />
-      <ChoiceBox layoutX="277.0" layoutY="520.0" prefWidth="150.0" />
+      <ComboBox fx:id="newUser" layoutX="277.0" layoutY="440.0" prefWidth="150.0" />
+      <ComboBox fx:id="newCustomer" layoutX="277.0" layoutY="479.0" prefWidth="150.0" />
+      <ComboBox fx:id="newContact" layoutX="277.0" layoutY="520.0" prefWidth="150.0" />
       <Label layoutX="182.0" layoutY="445.0" text="User ID" />
       <Label layoutX="182.0" layoutY="484.0" text="Customer" />
       <Label layoutX="182.0" layoutY="525.0" text="Contact " />
-      <Button layoutX="277.0" layoutY="572.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="90.0" text="Save" onAction="#addApptSaveSelected"/>
-      <Button layoutX="382.0" layoutY="572.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="90.0" text="Cancel" />
+      <Button fx:id="addApptSave" layoutX="277.0" layoutY="572.0" mnemonicParsing="false" onAction="#addApptSaveSelected" prefHeight="27.0" prefWidth="90.0" text="Save" />
+      <Button fx:id="addApptCancel" layoutX="382.0" layoutY="572.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="90.0" text="Cancel" onAction="#addApptCancelSelected"/>
    </children>
 </AnchorPane>
