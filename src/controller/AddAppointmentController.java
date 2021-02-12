@@ -69,7 +69,7 @@ public class AddAppointmentController {
 
 
 
-    public void addApptSaveSelected(ActionEvent event) {
+    public void addApptSaveSelected(ActionEvent event) throws IOException {
         AppointmentImpl impl = new AppointmentImpl();
 
         String title = newTitle.getText();
@@ -96,6 +96,13 @@ public class AddAppointmentController {
         newAppointment.setContactID(contactID);
 
         impl.create(newAppointment);
+
+        Parent addApptParent = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
+        Scene addApptScene = new Scene(addApptParent);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(addApptScene);
+        stage.show();
 
 
     }
