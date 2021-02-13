@@ -25,7 +25,7 @@
         <TextField fx:id="updatePostal" layoutX="271.0" layoutY="230.0" prefHeight="27.0" prefWidth="107.0" promptText="required" />
         <TextField fx:id="updatePhone" layoutX="271.0" layoutY="317.0" prefHeight="27.0" prefWidth="226.0" promptText="required" />
         <Button fx:id="updateSave" layoutX="271.0" layoutY="363.0" mnemonicParsing="false" prefWidth="90.0" text="Save" />
-        <Button fx:id="updateCancel" layoutX="378.0" layoutY="363.0" mnemonicParsing="false" prefWidth="90.0" text="Cancel" />
+        <Button fx:id="updateCancel" layoutX="378.0" layoutY="363.0" mnemonicParsing="false" prefWidth="90.0" text="Cancel" onAction="#updateCancelButton" />
       <Label layoutX="173.0" layoutY="115.0" text="Customer ID" />
       <TextField fx:id="updateID" disable="true" layoutX="271.0" layoutY="110.0" prefHeight="27.0" prefWidth="226.0" />
     </children>

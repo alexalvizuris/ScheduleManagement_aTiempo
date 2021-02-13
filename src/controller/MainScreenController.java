@@ -18,6 +18,7 @@ import model.Customer;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public class MainScreenController {
 
@@ -111,6 +112,12 @@ public class MainScreenController {
     @FXML
     private TableColumn<Customer, String> custPhone;
 
+    @FXML
+    private Button custUpdate;
+
+    @FXML
+    private Button custDelete;
+
 
     public void newAppointmentSelected(ActionEvent event) throws IOException {
 
@@ -146,6 +153,15 @@ public class MainScreenController {
         mainTableView.isDisabled();
         customerTable.setDisable(false);
         customerTable.setVisible(true);
+        updateButton.setVisible(false);
+        updateButton.setDisable(true);
+        deleteButton.setVisible(false);
+        deleteButton.setDisable(true);
+        custUpdate.setVisible(true);
+        custUpdate.setDisable(false);
+        custDelete.setVisible(true);
+        custDelete.setDisable(false);
+
 
     }
 
@@ -161,13 +177,20 @@ public class MainScreenController {
         mainTableView.setDisable(false);
         customerTable.setDisable(true);
         customerTable.setVisible(false);
+        custUpdate.setDisable(true);
+        custUpdate.setVisible(false);
+        custDelete.setVisible(false);
+        custDelete.setDisable(true);
+        updateButton.setDisable(false);
+        updateButton.setVisible(true);
+        deleteButton.setVisible(true);
+        deleteButton.setDisable(false);
 
 
     }
 
     public void updateSelected(ActionEvent event) throws IOException {
 
-        if (!weekRadioButton.isDisabled()) {
             FXMLLoader loader = new FXMLLoader();
 
             loader.setLocation(getClass().getResource("/view/updateAppointment.fxml"));
@@ -181,23 +204,35 @@ public class MainScreenController {
             stage.setScene(modifyScene);
             stage.show();
 
+    }
+
+    public void custUpdate(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader();
+
+        loader.setLocation(getClass().getResource("/view/updateCustomer.fxml"));
+        Parent updateParent = loader.load();
+        Scene modifyScene = new Scene(updateParent);
+
+        UpdateCustomerController controller = loader.getController();
+        controller.initCustData(customerTable.getSelectionModel().getSelectedItem());
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(modifyScene);
+        stage.show();
+
+    }
+
+    public void signOutSelected(ActionEvent event) {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You are now EXITING the program. Continue?");
+        Optional<ButtonType> selectedButton = alert.showAndWait();
+
+        if (selectedButton.isPresent() && selectedButton.get() == ButtonType.OK) {
+
+            Stage stage = (Stage) signOutButton.getScene().getWindow();
+            stage.close();
         }
-
-        if (weekRadioButton.isDisabled()) {
-            FXMLLoader loader = new FXMLLoader();
-
-            loader.setLocation(getClass().getResource("/view/updateCustomer.fxml"));
-            Parent updateParent = loader.load();
-            Scene modifyScene = new Scene(updateParent);
-
-            UpdateCustomerController controller = loader.getController();
-            controller.initCustdata(customerTable.getSelectionModel().getSelectedItem());
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(modifyScene);
-            stage.show();
-        }
-
     }
 
 

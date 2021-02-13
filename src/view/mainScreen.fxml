@@ -25,7 +25,7 @@
             <Insets left="15.0" />
          </padding>
       </VBox>
-      <Button fx:id="signOutButton" layoutX="44.0" layoutY="543.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="90.0" text="Sign Out" />
+      <Button fx:id="signOutButton" layoutX="44.0" layoutY="543.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#signOutSelected" prefWidth="90.0" text="Sign Out" />
       <TableView fx:id="mainTableView" layoutX="202.0" layoutY="147.0" prefHeight="378.0" prefWidth="956.0">
         <columns>
           <TableColumn fx:id="firstColumn" prefWidth="75.0" text="ID " />
@@ -48,7 +48,7 @@
         </items>
       </MenuButton>
       <Button fx:id="deleteButton" layoutX="1068.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" />
-      <Button fx:id="updateButton" layoutX="915.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Update" onAction="#updateSelected"/>
+      <Button fx:id="updateButton" layoutX="915.0" layoutY="543.0" mnemonicParsing="false" onAction="#updateSelected" prefWidth="90.0" text="Update" />
       <RadioButton fx:id="monthRadioButton" layoutX="1068.0" layoutY="103.0" mnemonicParsing="false" text="By Month" />
       <RadioButton fx:id="weekRadioButton" layoutX="923.0" layoutY="103.0" mnemonicParsing="false" text="By Week" />
       <Label fx:id="mainLabel" layoutX="202.0" layoutY="22.0" prefHeight="64.0" prefWidth="309.0" text="Appointments" textFill="#837c7c">
@@ -66,5 +66,7 @@
             <TableColumn fx:id="custPhone" prefWidth="181.0" text="Phone" />
         </columns>
       </TableView>
+      <Button fx:id="custUpdate" disable="true" layoutX="915.0" layoutY="543.0" mnemonicParsing="false"  prefWidth="90.0" text="Update" visible="false" onAction="#custUpdate"/>
+      <Button fx:id="custDelete" disable="true" layoutX="1068.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" visible="false" />
    </children>
 </AnchorPane>
