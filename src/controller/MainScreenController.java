@@ -183,6 +183,21 @@ public class MainScreenController {
 
         }
 
+        if (weekRadioButton.isDisabled()) {
+            FXMLLoader loader = new FXMLLoader();
+
+            loader.setLocation(getClass().getResource("/view/updateCustomer.fxml"));
+            Parent updateParent = loader.load();
+            Scene modifyScene = new Scene(updateParent);
+
+            UpdateCustomerController controller = loader.getController();
+            controller.initCustdata(customerTable.getSelectionModel().getSelectedItem());
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(modifyScene);
+            stage.show();
+        }
+
     }
 
 

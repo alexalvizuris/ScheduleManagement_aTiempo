@@ -70,6 +70,8 @@ public class UpdateAppointmentController {
 
 
 
+
+
     public void updateCancelSelected(ActionEvent event) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No data will be saved. Continue?");
