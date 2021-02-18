@@ -25,8 +25,9 @@ public class CountryImpl implements CountryDAO {
         Connection conn = DBConnection.startConnection();
 
         try (PreparedStatement statement = conn.prepareStatement(GET_COUNTRY)) {
-            ResultSet resultSet = statement.executeQuery();
             statement.setInt(1, countryID);
+            ResultSet resultSet = statement.executeQuery();
+
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("Country_ID");

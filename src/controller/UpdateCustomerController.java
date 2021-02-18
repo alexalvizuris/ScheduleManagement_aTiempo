@@ -1,6 +1,7 @@
 package controller;
 
 import database.impl.CountryImpl;
+import database.impl.CustomerImpl;
 import database.impl.FirstLevelDivisionImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,8 @@ import model.Customer;
 import model.FirstLevelDivision;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class UpdateCustomerController {
@@ -48,6 +51,37 @@ public class UpdateCustomerController {
     @FXML
     private TextField updateID;
 
+    public void updateSaveSelected(ActionEvent event) throws IOException {
+        String id = String.valueOf(updateID.getText());
+        String name = updateName.getText();
+        String address = updateAddress.getText();
+        String postal = updatePostal.getText();
+        int tempCountry = updateCountry.getSelectionModel().getSelectedItem().getCountryID();
+        String country = updateCountry.getSelectionModel().getSelectedItem().getCountryName();
+        int division = updateState.getSelectionModel().getSelectedItem().getDivisionID();
+        String phone = updatePhone.getText();
+        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+        String updatedBy = "test";
+
+
+        Customer customer = new Customer(name, address, postal, phone);
+        customer.setDivisionID(division);
+        customer.setLastUpdated(now);
+        customer.setLastUpdatedBy(updatedBy);
+        customer.setCustomerID(Integer.valueOf(id));
+        CustomerImpl impl = new CustomerImpl();
+
+        impl.update(customer);
+
+        Parent updateCustParent = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
+        Scene updateCustScene = new Scene(updateCustParent);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(updateCustScene);
+        stage.show();
+
+    }
+
 
     public void updateCancelButton(ActionEvent event) throws IOException {
 
@@ -68,8 +102,10 @@ public class UpdateCustomerController {
 
         CountryImpl countryImpl = new CountryImpl();
         FirstLevelDivisionImpl divisionImpl = new FirstLevelDivisionImpl();
+
         ObservableList<Country> countryList = FXCollections.observableArrayList();
         ObservableList<FirstLevelDivision> divisionList = FXCollections.observableArrayList();
+
         countryList = countryImpl.getAllCountries();
         divisionList = divisionImpl.getAllDivisions();
 

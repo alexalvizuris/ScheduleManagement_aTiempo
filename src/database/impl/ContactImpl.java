@@ -57,8 +57,9 @@ public class ContactImpl implements ContactDAO {
 
 
         try (PreparedStatement statement = conn.prepareStatement(GET_CONTACT)) {
-            ResultSet resultSet = statement.executeQuery();
             statement.setInt(1, contactID);
+            ResultSet resultSet = statement.executeQuery();
+
 
             while (resultSet.next()) {
 

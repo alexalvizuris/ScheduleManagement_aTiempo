@@ -56,6 +56,7 @@ public class UserImpl implements UserDAO {
             statement.setInt(1, userID);
             ResultSet resultSet = statement.executeQuery();
 
+
             while (resultSet.next()) {
                 int id = resultSet.getInt("User_ID");
                 String userName = resultSet.getString("User_Name");

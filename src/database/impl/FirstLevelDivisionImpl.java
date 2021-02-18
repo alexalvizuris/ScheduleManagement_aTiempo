@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class FirstLevelDivisionImpl implements FirstLevelDivisionDAO {
 
     //Initiate Read string
-    private static final String GET_DIVISION = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
+    private static String GET_DIVISION = "SELECT * FROM first_level_divisions WHERE Division_ID = ?";
 
 
     //Initiate Read All string
@@ -24,8 +24,8 @@ public class FirstLevelDivisionImpl implements FirstLevelDivisionDAO {
         Connection conn = DBConnection.startConnection();
 
         try (PreparedStatement statement = conn.prepareStatement(GET_DIVISION)) {
-            ResultSet resultSet = statement.executeQuery();
             statement.setInt(1, firstLevelDivisionID);
+            ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("Division_ID");

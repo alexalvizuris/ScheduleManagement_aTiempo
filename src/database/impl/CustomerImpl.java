@@ -27,8 +27,8 @@ public class CustomerImpl implements CustomerDAO {
     private static final String GET_ALL = "SELECT * FROM customers";
 
     // Initializes Update string
-    private static final String UPDATE = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_code = ?, Create_Date = ?, " +
-            "Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
+    private static final String UPDATE = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_code = ?, Phone = ?, " +
+            "Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = ?";
 
     //Initializes Delete string
     private static final String DELETE = "DELETE FROM customers WHERE Customer_ID = ?";
@@ -66,8 +66,9 @@ public class CustomerImpl implements CustomerDAO {
         Connection conn = DBConnection.startConnection();
 
         try (PreparedStatement statement = conn.prepareStatement(GET_CUSTOMER)) {
-            ResultSet resultSet = statement.executeQuery();
+
             statement.setInt(1, customerID);
+            ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("Customer_ID");
@@ -150,8 +151,6 @@ public class CustomerImpl implements CustomerDAO {
             String address = customer.getAddress();
             String postalCode = customer.getPostalCode();
             String phoneNum = customer.getPhoneNumber();
-            LocalDateTime create = customer.getCreateDate();
-            String createdBy = customer.getCreatedBy();
             Timestamp lastUpdate = java.sql.Timestamp.valueOf(java.time.LocalDateTime.now());
             String updatedBy = customer.getLastUpdatedBy();
             int divisionID = customer.getDivisionID();
@@ -161,12 +160,10 @@ public class CustomerImpl implements CustomerDAO {
             statement.setString(2, address);
             statement.setString(3, postalCode);
             statement.setString(4, phoneNum);
-            statement.setTimestamp(5, Timestamp.valueOf(create));
-            statement.setString(6, createdBy);
-            statement.setTimestamp(7, lastUpdate);
-            statement.setString(8, updatedBy);
-            statement.setInt(9, divisionID);
-            statement.setInt(10, id);
+            statement.setTimestamp(5, lastUpdate);
+            statement.setString(6, updatedBy);
+            statement.setInt(7, divisionID);
+            statement.setInt(8, id);
             statement.execute();
 
 

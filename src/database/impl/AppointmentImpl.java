@@ -25,7 +25,7 @@ public class AppointmentImpl implements AppointmentDAO {
 
     // Initializes Update string
     private static final String UPDATE = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, " +
-            "Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_Id = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+            "Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_Id = ?, Contact_ID = ? WHERE Appointment_ID = ?";
 
     //Initializes Delete string
     private static final String DELETE = "DELETE FROM appointments WHERE Appointment_ID = ?";
@@ -168,8 +168,6 @@ public class AppointmentImpl implements AppointmentDAO {
             String type = appointment.getType();
             LocalDateTime start = appointment.getStart();
             LocalDateTime end = appointment.getEnd();
-            LocalDateTime createDate = appointment.getCreateDate();
-            String createdBy = appointment.getCreatedBy();
             Timestamp update = java.sql.Timestamp.valueOf(java.time.LocalDateTime.now());
             String updatedBy = appointment.getLastUpdatedBy();
             int customerId = appointment.getCustomerID();
@@ -183,14 +181,12 @@ public class AppointmentImpl implements AppointmentDAO {
             statement.setString(4, type);
             statement.setTimestamp(5, Timestamp.valueOf(start));
             statement.setTimestamp(6, Timestamp.valueOf(end));
-            statement.setTimestamp(7, Timestamp.valueOf(createDate));
-            statement.setString(8, createdBy);
-            statement.setTimestamp(9, update);
-            statement.setString(10, updatedBy);
-            statement.setInt(11, customerId);
-            statement.setInt(12, userId);
-            statement.setInt(13, contactId);
-            statement.setInt(14, id);
+            statement.setTimestamp(7, update);
+            statement.setString(8, updatedBy);
+            statement.setInt(9, customerId);
+            statement.setInt(10, userId);
+            statement.setInt(11, contactId);
+            statement.setInt(12, id);
             statement.execute();
 
 
