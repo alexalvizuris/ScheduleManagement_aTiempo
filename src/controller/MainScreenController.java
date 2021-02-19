@@ -223,6 +223,50 @@ public class MainScreenController {
 
     }
 
+    public void deleteAppointment(ActionEvent event) {
+
+        if (mainTableView.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("Please select an Appointment to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You are deleting an appointment. Continue?");
+        Optional<ButtonType> selectedButton = alert.showAndWait();
+
+        if (selectedButton.isPresent() && selectedButton.get() == ButtonType.OK) {
+            AppointmentImpl appt = new AppointmentImpl();
+            int apptID = mainTableView.getSelectionModel().getSelectedItem().getAppointmentID();
+            appt.delete(apptID);
+        }
+
+    }
+
+    public void deleteCustomer(ActionEvent event) {
+
+        if (customerTable.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("Please select a Customer to delete.");
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You are deleting a customer. Continue?");
+        Optional<ButtonType> selectedButton = alert.showAndWait();
+
+        if (selectedButton.isPresent() && selectedButton.get() == ButtonType.OK) {
+            CustomerImpl cust = new CustomerImpl();
+            int custID = customerTable.getSelectionModel().getSelectedItem().getCustomerID();
+            cust.delete(custID);
+        }
+
+    }
+
+
+
     public void signOutSelected(ActionEvent event) {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You are now EXITING the program. Continue?");

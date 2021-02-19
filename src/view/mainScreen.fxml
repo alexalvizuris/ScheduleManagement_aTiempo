@@ -47,7 +47,7 @@
           <MenuItem fx:id="viewAppointments" mnemonicParsing="false" onAction="#viewAppointmentTable" text="View Appointments" />
         </items>
       </MenuButton>
-      <Button fx:id="deleteButton" layoutX="1068.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" />
+      <Button fx:id="deleteButton" layoutX="1068.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" onAction="#deleteAppointment"/>
       <Button fx:id="updateButton" layoutX="915.0" layoutY="543.0" mnemonicParsing="false" onAction="#updateSelected" prefWidth="90.0" text="Update" />
       <RadioButton fx:id="monthRadioButton" layoutX="1068.0" layoutY="103.0" mnemonicParsing="false" text="By Month" />
       <RadioButton fx:id="weekRadioButton" layoutX="923.0" layoutY="103.0" mnemonicParsing="false" text="By Week" />
@@ -67,6 +67,6 @@
         </columns>
       </TableView>
       <Button fx:id="custUpdate" disable="true" layoutX="915.0" layoutY="543.0" mnemonicParsing="false"  prefWidth="90.0" text="Update" visible="false" onAction="#custUpdate"/>
-      <Button fx:id="custDelete" disable="true" layoutX="1068.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" visible="false" />
+      <Button fx:id="custDelete" disable="true" layoutX="1068.0" layoutY="543.0" mnemonicParsing="false" prefWidth="90.0" text="Delete" visible="false" onAction="#deleteCustomer"/>
    </children>
 </AnchorPane>
