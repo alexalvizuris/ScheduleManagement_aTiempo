@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import model.Country;
 import model.Customer;
 import model.FirstLevelDivision;
+import model.User;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -46,17 +47,27 @@ public class AddCustomerController {
     @FXML
     private Button newCustCancel;
 
+    private User loggedIn;
+
     public void newCustCancelSelected(ActionEvent event) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No data will be saved. Continue?");
         Optional<ButtonType> confirm = alert.showAndWait();
 
         if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            Parent addCustParent = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+
+            Parent addCustParent = loader.load();
             Scene addCustScene = new Scene(addCustParent);
+
+            MainScreenController controller = loader.getController();
+            controller.initialize(loggedIn);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(addCustScene);
+            stage.centerOnScreen();
             stage.show();
         }
     }
@@ -71,24 +82,39 @@ public class AddCustomerController {
         String country = newCountry.getSelectionModel().getSelectedItem().getCountryName();
         int division = newState.getSelectionModel().getSelectedItem().getDivisionID();
         String phone = newPhone.getText();
+        String createdBy = loggedIn.getUserName();
+        String updatedBy  = loggedIn.getUserName();
 
 
         Customer customer = new Customer(name, address, postal, phone);
         customer.setDivisionID(division);
+        customer.setCreatedBy(createdBy);
+        customer.setLastUpdatedBy(updatedBy);
+
         CustomerImpl impl = new CustomerImpl();
 
         impl.create(customer);
 
-        Parent addCustParent = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+
+        Parent addCustParent = loader.load();
         Scene addCustScene = new Scene(addCustParent);
+
+        MainScreenController controller = loader.getController();
+        controller.initialize(loggedIn);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(addCustScene);
+        stage.centerOnScreen();
         stage.show();
 
     }
 
-    public void initialize() {
+    public void initialize(User user) {
+
+        loggedIn = user;
 
         CountryImpl country = new CountryImpl();
         FirstLevelDivisionImpl division = new FirstLevelDivisionImpl();
@@ -98,6 +124,7 @@ public class AddCustomerController {
 
         countryList = country.getAllCountries();
         divisionList = division.getAllDivisions();
+
 
         newCountry.setItems(countryList);
         newState.setItems(divisionList);

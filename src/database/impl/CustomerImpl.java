@@ -5,7 +5,6 @@ import database.interfaces.CustomerDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customer;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.sql.PreparedStatement;

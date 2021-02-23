@@ -71,6 +71,8 @@ public class UpdateAppointmentController {
     @FXML
     private Button updateCancel;
 
+    private User loggedIn;
+
 
 
     public void updateSaveSelected(ActionEvent event) throws IOException {
@@ -96,7 +98,7 @@ public class UpdateAppointmentController {
         int customerID = updateCustomer.getSelectionModel().getSelectedItem().getCustomerID();
         int contactID = updateContact.getSelectionModel().getSelectedItem().getContactID();
         Timestamp update = Timestamp.valueOf(LocalDateTime.now());
-        String updatedBy = "test";
+        String updatedBy = loggedIn.getUserName();
 
         Appointment newAppointment = new Appointment(title, description, location, type, start, end);
         newAppointment.setUserID(userID);
@@ -109,11 +111,18 @@ public class UpdateAppointmentController {
 
         impl.update(newAppointment);
 
-        Parent updateApptParent = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+
+        Parent updateApptParent = loader.load();
         Scene updateApptScene = new Scene(updateApptParent);
+
+        MainScreenController controller = loader.getController();
+        controller.initialize(loggedIn);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(updateApptScene);
+        stage.centerOnScreen();
         stage.show();
 
     }
@@ -125,18 +134,27 @@ public class UpdateAppointmentController {
         Optional<ButtonType> confirm = alert.showAndWait();
 
         if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            Parent updateApptParent = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+
+            Parent updateApptParent = loader.load();
             Scene updateApptScene = new Scene(updateApptParent);
+
+            MainScreenController controller = loader.getController();
+            controller.initialize(loggedIn);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(updateApptScene);
+            stage.centerOnScreen();
             stage.show();
         }
     }
 
 
-    public void initApptData(Appointment appointment) {
+    public void initApptData(Appointment appointment, User user) {
 
+        loggedIn = user;
 
         CustomerImpl custI = new CustomerImpl();
         UserImpl userI = new UserImpl();

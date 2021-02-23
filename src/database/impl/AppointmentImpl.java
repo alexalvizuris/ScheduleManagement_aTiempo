@@ -30,6 +30,9 @@ public class AppointmentImpl implements AppointmentDAO {
     //Initializes Delete string
     private static final String DELETE = "DELETE FROM appointments WHERE Appointment_ID = ?";
 
+    //Initializes Read All of User
+    private static final String ALL_OF_USER = "SELECT * FROM appointments WHERE User_ID = ?";
+
 
 
     public Appointment create(Appointment appointment) {
@@ -153,6 +156,50 @@ public class AppointmentImpl implements AppointmentDAO {
     }
 
 
+    public ObservableList<Appointment> allFromUser(int userID) {
+
+        ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
+        Connection conn = DBConnection.startConnection();
+
+        try (PreparedStatement statement = conn.prepareStatement(ALL_OF_USER)) {
+            statement.setInt(1, userID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                int id = resultSet.getInt("Appointment_ID");
+                String title = resultSet.getString("Title");
+                String description = resultSet.getString("Description");
+                String location = resultSet.getString("Location");
+                String type = resultSet.getString("Type");
+                LocalDateTime start = resultSet.getObject("Start", LocalDateTime.class);
+                LocalDateTime end = resultSet.getObject("End", LocalDateTime.class);
+                LocalDateTime createDate = resultSet.getObject("Create_Date", LocalDateTime.class);
+                String createdBy = resultSet.getString("Created_By");
+                Timestamp update = resultSet.getTimestamp("Last_Update");
+                String updatedBy = resultSet.getString("Last_Updated_By");
+                int customerId = resultSet.getInt("Customer_ID");
+                int userId = resultSet.getInt("User_ID");
+                int contactId = resultSet.getInt("Contact_ID");
+
+                Appointment appt = new Appointment(title, description, location, type, start, end);
+                appt.setAppointmentID(id);
+                appt.setCreateDate(createDate);
+                appt.setCreatedBy(createdBy);
+                appt.setLastUpdate(update);
+                appt.setLastUpdatedBy(updatedBy);
+                appt.setCustomerID(customerId);
+                appt.setUserID(userId);
+                appt.setContactID(contactId);
+
+                allAppts.add(appt);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        DBConnection.closeConnection();
+        return allAppts;
+    }
 
 
 

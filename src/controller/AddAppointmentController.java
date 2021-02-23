@@ -66,6 +66,8 @@ public class AddAppointmentController {
     @FXML
     private Button addApptCancel;
 
+    private User loggedIn;
+
 
 
 
@@ -86,22 +88,32 @@ public class AddAppointmentController {
         String endString = newEndTime.getText() + ":00";
         LocalTime endTime = LocalTime.parse(endString);
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        int userID = newUser.getSelectionModel().getSelectedItem().getUserId();
+        int userID = loggedIn.getUserId();
         int customerID = newCustomer.getSelectionModel().getSelectedItem().getCustomerID();
         int contactID = newContact.getSelectionModel().getSelectedItem().getContactID();
+        String createdBy = loggedIn.getUserName();
+        String updatedBy = loggedIn.getUserName();
 
         Appointment newAppointment = new Appointment(title, description, location, type, start, end);
         newAppointment.setUserID(userID);
         newAppointment.setCustomerID(customerID);
         newAppointment.setContactID(contactID);
+        newAppointment.setCreatedBy(createdBy);
+        newAppointment.setLastUpdatedBy(updatedBy);
 
         impl.create(newAppointment);
 
-        Parent addApptParent = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+        Parent addApptParent = loader.load();
         Scene addApptScene = new Scene(addApptParent);
+
+        MainScreenController controller = loader.getController();
+        controller.initialize(loggedIn);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(addApptScene);
+        stage.centerOnScreen();
         stage.show();
 
 
@@ -112,18 +124,27 @@ public class AddAppointmentController {
         Optional<ButtonType> confirm = alert.showAndWait();
 
         if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
-            Parent addApptParent = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+            Parent addApptParent = loader.load();
             Scene addApptScene = new Scene(addApptParent);
+
+            MainScreenController controller = loader.getController();
+            controller.initialize(loggedIn);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(addApptScene);
+            stage.centerOnScreen();
             stage.show();
         }
 
     }
 
 
-    public void initialize() {
+    public void initialize(User user) {
+
+        loggedIn = user;
         CustomerImpl custI = new CustomerImpl();
         UserImpl userI = new UserImpl();
         ContactImpl contactI = new ContactImpl();
@@ -136,6 +157,7 @@ public class AddAppointmentController {
         contactChoices = contactI.getAllContacts();
 
         newUser.setItems(userChoices);
+        newUser.setValue(user);
         newContact.setItems(contactChoices);
         newCustomer.setItems(custChoices);
 

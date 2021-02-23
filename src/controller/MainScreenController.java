@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
+import model.User;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -118,25 +119,41 @@ public class MainScreenController {
     @FXML
     private Button custDelete;
 
+    private User loggedIn;
+
 
     public void newAppointmentSelected(ActionEvent event) throws IOException {
 
-        Parent addApptParent = FXMLLoader.load(getClass().getResource("/view/addAppointment.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/addAppointment.fxml"));
+
+        Parent addApptParent = loader.load();
         Scene addApptScene = new Scene(addApptParent);
+
+        AddAppointmentController controller = loader.getController();
+        controller.initialize(loggedIn);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(addApptScene);
+        stage.centerOnScreen();
         stage.show();
 
     }
 
-    public void newCustomerSelected(ActionEvent event) throws IOException
-    {
-        Parent addCustParent = FXMLLoader.load(getClass().getResource("/view/addCustomer.fxml"));
+    public void newCustomerSelected(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/addCustomer.fxml"));
+
+        Parent addCustParent = loader.load();
         Scene addCustScene = new Scene(addCustParent);
+
+        AddCustomerController controller = loader.getController();
+        controller.initialize(loggedIn);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(addCustScene);
+        stage.centerOnScreen();
         stage.show();
 
     }
@@ -198,7 +215,7 @@ public class MainScreenController {
             Scene modifyScene = new Scene(updateParent);
 
             UpdateAppointmentController controller = loader.getController();
-            controller.initApptData(mainTableView.getSelectionModel().getSelectedItem());
+            controller.initApptData(mainTableView.getSelectionModel().getSelectedItem(), loggedIn);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(modifyScene);
@@ -215,7 +232,7 @@ public class MainScreenController {
         Scene modifyScene = new Scene(updateParent);
 
         UpdateCustomerController controller = loader.getController();
-        controller.initCustData(customerTable.getSelectionModel().getSelectedItem());
+        controller.initCustData(customerTable.getSelectionModel().getSelectedItem(), loggedIn);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(modifyScene);
@@ -265,9 +282,15 @@ public class MainScreenController {
 
     }
 
+//    public void weekSelected() {
+//        if (weekRadioButton.isSelected()) {
+//
+//        }
+//    }
 
 
-    public void signOutSelected(ActionEvent event) {
+
+    public void signOutSelected() {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You are now EXITING the program. Continue?");
         Optional<ButtonType> selectedButton = alert.showAndWait();
@@ -280,7 +303,10 @@ public class MainScreenController {
     }
 
 
-    public void initialize() {
+    public void initialize(User user) {
+
+        loggedIn = user;
+
         AppointmentImpl implement = new AppointmentImpl();
         mainTableView.setItems(implement.getAllAppt());
 

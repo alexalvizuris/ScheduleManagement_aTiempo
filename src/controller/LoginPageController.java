@@ -42,11 +42,20 @@ public class LoginPageController {
          for (int i = 0; i < acceptableUsers.size(); i++) {
              if (acceptableUsers.get(i).getUserName().equals(usernameInput) && acceptableUsers.get(i).getPassword().equals(passwordInput)) {
                  count += 1;
-                 Parent signInParent = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
-                 Scene signInScene = new Scene(signInParent);
+
+
+
+                 FXMLLoader loader = new FXMLLoader();
+                 loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+                 Parent mainParent = loader.load();
+                 Scene signInScene = new Scene(mainParent);
+
+                 MainScreenController controller = loader.getController();
+                 controller.initialize(acceptableUsers.get(i));
 
                  Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                  stage.setScene(signInScene);
+                 stage.centerOnScreen();
                  stage.show();
              }
 
@@ -59,6 +68,7 @@ public class LoginPageController {
         }
 
     }
+
 
 }
 
