@@ -6,6 +6,7 @@ import database.interfaces.AppointmentDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
+import model.User;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -27,12 +28,17 @@ public class AppointmentImpl implements AppointmentDAO {
     private static final String UPDATE = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, " +
             "Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_Id = ?, Contact_ID = ? WHERE Appointment_ID = ?";
 
-    //Initializes Delete string
+    // Initializes Delete string
     private static final String DELETE = "DELETE FROM appointments WHERE Appointment_ID = ?";
 
-    //Initializes Read All of User
+    // Initializes Read All of User
     private static final String ALL_OF_USER = "SELECT * FROM appointments WHERE User_ID = ?";
 
+    // Initializes Read All Week
+    private static final String ALL_WEEK = "SELECT * FROM appointments WHERE YEARWEEK(Start) = YEARWEEK(CURDATE()) AND User_ID = ?";
+
+    // Initializes Read All Month
+    private static final String ALL_MONTH = "SELECT * FROM appointments WHERE MONTH(Start) = MONTH(CURDATE()) AND User_ID = ?";
 
 
     public Appointment create(Appointment appointment) {
@@ -199,6 +205,102 @@ public class AppointmentImpl implements AppointmentDAO {
         }
         DBConnection.closeConnection();
         return allAppts;
+    }
+
+    public ObservableList<Appointment> weekAppointments(int userID) {
+
+        ObservableList<Appointment> weeklyAppts = FXCollections.observableArrayList();
+        Connection conn = DBConnection.startConnection();
+
+        try (PreparedStatement statement = conn.prepareStatement(ALL_WEEK)) {
+
+            statement.setInt(1, userID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                int id = resultSet.getInt("Appointment_ID");
+                String title = resultSet.getString("Title");
+                String description = resultSet.getString("Description");
+                String location = resultSet.getString("Location");
+                String type = resultSet.getString("Type");
+                LocalDateTime start = resultSet.getObject("Start", LocalDateTime.class);
+                LocalDateTime end = resultSet.getObject("End", LocalDateTime.class);
+                LocalDateTime createDate = resultSet.getObject("Create_Date", LocalDateTime.class);
+                String createdBy = resultSet.getString("Created_By");
+                Timestamp update = resultSet.getTimestamp("Last_Update");
+                String updatedBy = resultSet.getString("Last_Updated_By");
+                int customerId = resultSet.getInt("Customer_ID");
+                int userId = resultSet.getInt("User_ID");
+                int contactId = resultSet.getInt("Contact_ID");
+
+                Appointment appt = new Appointment(title, description, location, type, start, end);
+                appt.setAppointmentID(id);
+                appt.setCreateDate(createDate);
+                appt.setCreatedBy(createdBy);
+                appt.setLastUpdate(update);
+                appt.setLastUpdatedBy(updatedBy);
+                appt.setCustomerID(customerId);
+                appt.setUserID(userId);
+                appt.setContactID(contactId);
+
+                weeklyAppts.add(appt);
+
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        DBConnection.closeConnection();
+        return weeklyAppts;
+    }
+
+    public ObservableList<Appointment> monthAppointments(int userID) {
+
+        ObservableList<Appointment> monthlyAppts = FXCollections.observableArrayList();
+        Connection conn = DBConnection.startConnection();
+
+        try (PreparedStatement statement = conn.prepareStatement(ALL_MONTH)) {
+
+
+            statement.setInt(1, userID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                int id = resultSet.getInt("Appointment_ID");
+                String title = resultSet.getString("Title");
+                String description = resultSet.getString("Description");
+                String location = resultSet.getString("Location");
+                String type = resultSet.getString("Type");
+                LocalDateTime start = resultSet.getObject("Start", LocalDateTime.class);
+                LocalDateTime end = resultSet.getObject("End", LocalDateTime.class);
+                LocalDateTime createDate = resultSet.getObject("Create_Date", LocalDateTime.class);
+                String createdBy = resultSet.getString("Created_By");
+                Timestamp update = resultSet.getTimestamp("Last_Update");
+                String updatedBy = resultSet.getString("Last_Updated_By");
+                int customerId = resultSet.getInt("Customer_ID");
+                int userId = resultSet.getInt("User_ID");
+                int contactId = resultSet.getInt("Contact_ID");
+
+                Appointment appt = new Appointment(title, description, location, type, start, end);
+                appt.setAppointmentID(id);
+                appt.setCreateDate(createDate);
+                appt.setCreatedBy(createdBy);
+                appt.setLastUpdate(update);
+                appt.setLastUpdatedBy(updatedBy);
+                appt.setCustomerID(customerId);
+                appt.setUserID(userId);
+                appt.setContactID(contactId);
+
+                monthlyAppts.add(appt);
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        DBConnection.closeConnection();
+        return monthlyAppts;
     }
 
 

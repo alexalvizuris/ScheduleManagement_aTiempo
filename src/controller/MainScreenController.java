@@ -282,11 +282,11 @@ public class MainScreenController {
 
     }
 
-//    public void weekSelected() {
-//        if (weekRadioButton.isSelected()) {
-//
-//        }
-//    }
+    public void weekSelected() {
+        if (weekRadioButton.isSelected()) {
+
+        }
+    }
 
 
 
