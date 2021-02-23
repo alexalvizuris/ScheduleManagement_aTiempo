@@ -90,6 +90,9 @@ public class MainScreenController {
     private RadioButton weekRadioButton;
 
     @FXML
+    private RadioButton viewAllRadioButton;
+
+    @FXML
     private Label mainLabel;
 
     @FXML
@@ -120,6 +123,8 @@ public class MainScreenController {
     private Button custDelete;
 
     private User loggedIn;
+
+
 
 
     public void newAppointmentSelected(ActionEvent event) throws IOException {
@@ -283,8 +288,23 @@ public class MainScreenController {
     }
 
     public void weekSelected() {
+        AppointmentImpl impl = new AppointmentImpl();
         if (weekRadioButton.isSelected()) {
+            mainTableView.setItems(impl.weekAppointments(loggedIn.getUserId()));
+        }
+    }
 
+    public void monthSelected() {
+        AppointmentImpl impl = new AppointmentImpl();
+        if (monthRadioButton.isSelected()) {
+            mainTableView.setItems(impl.monthAppointments(loggedIn.getUserId()));
+        }
+    }
+
+    public void allSelected() {
+        AppointmentImpl impl = new AppointmentImpl();
+        if (viewAllRadioButton.isSelected()) {
+            mainTableView.setItems(impl.allFromUser(loggedIn.getUserId()));
         }
     }
 
@@ -308,7 +328,7 @@ public class MainScreenController {
         loggedIn = user;
 
         AppointmentImpl implement = new AppointmentImpl();
-        mainTableView.setItems(implement.getAllAppt());
+        mainTableView.setItems(implement.allFromUser(loggedIn.getUserId()));
 
         firstColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         secondColumn.setCellValueFactory(new PropertyValueFactory<>("title"));

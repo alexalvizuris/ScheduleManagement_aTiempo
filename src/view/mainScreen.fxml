@@ -53,9 +53,9 @@
       <fx:define>
           <ToggleGroup fx:id="viewGroup" />
       </fx:define>
-      <RadioButton fx:id="monthRadioButton" layoutX="928.0" layoutY="103.0" mnemonicParsing="false" text="By Month" toggleGroup="$viewGroup" />
-      <RadioButton fx:id="weekRadioButton" layoutX="818.0" layoutY="103.0" mnemonicParsing="false" text="By Week" toggleGroup="$viewGroup"/>
-       <RadioButton fx:id="viewAllRadioButton" layoutX="1035.0" layoutY="103.0" mnemonicParsing="false" text="View All" toggleGroup="$viewGroup" selected="true"/>
+      <RadioButton fx:id="monthRadioButton" layoutX="928.0" layoutY="103.0" mnemonicParsing="false" text="By Month" toggleGroup="$viewGroup" onAction="#monthSelected" />
+      <RadioButton fx:id="weekRadioButton" layoutX="818.0" layoutY="103.0" mnemonicParsing="false" text="By Week" toggleGroup="$viewGroup" onAction="#weekSelected"/>
+       <RadioButton fx:id="viewAllRadioButton" layoutX="1035.0" layoutY="103.0" mnemonicParsing="false" text="View All" toggleGroup="$viewGroup" selected="true" onAction="#allSelected"/>
       <Label fx:id="mainLabel" layoutX="202.0" layoutY="22.0" prefHeight="64.0" prefWidth="309.0" text="Appointments" textFill="#837c7c">
          <font>
             <Font name="Nadeem Regular" size="36.0" />
