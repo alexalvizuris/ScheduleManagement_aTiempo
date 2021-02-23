@@ -139,6 +139,15 @@ public class UpdateCustomerController {
 
         FirstLevelDivision tempDivision = divisionImpl.getDivision(customer.getDivisionID());
         updateCountry.setValue(countryImpl.getCountry(tempDivision.getCountryID()));
+       updateState.setValue(divisionImpl.getDivision(customer.getDivisionID()));
+
+        ObservableList<FirstLevelDivision> relatedDivisions = FXCollections.observableArrayList();
+        for (int i = 0; i < divisionList.size(); i++) {
+            if (divisionList.get(i).getCountryID() == tempDivision.getCountryID()) {
+                relatedDivisions.add(divisionList.get(i));
+            }
+        }
+        updateState.setItems(relatedDivisions);
         updateState.setValue(divisionImpl.getDivision(customer.getDivisionID()));
 
     }

@@ -19,6 +19,7 @@ import model.FirstLevelDivision;
 import model.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class AddCustomerController {
@@ -112,6 +113,25 @@ public class AddCustomerController {
 
     }
 
+    public void countrySelected() {
+
+        FirstLevelDivisionImpl divisionImpl = new FirstLevelDivisionImpl();
+        if (!(newCountry.getSelectionModel().isEmpty())) {
+            Country selectedCountry = newCountry.getSelectionModel().getSelectedItem();
+            int ID = selectedCountry.getCountryID();
+            ObservableList<FirstLevelDivision> allDivisions = divisionImpl.getAllDivisions();
+            ObservableList<FirstLevelDivision> sortedDivisions = FXCollections.observableArrayList();
+
+            for (int i = 0; i < allDivisions.size(); i++) {
+                if (allDivisions.get(i).getCountryID() == ID) {
+                    sortedDivisions.add(allDivisions.get(i));
+                }
+            }
+            newState.setDisable(false);
+            newState.setItems(sortedDivisions);
+        }
+    }
+
     public void initialize(User user) {
 
         loggedIn = user;
@@ -124,8 +144,6 @@ public class AddCustomerController {
 
         countryList = country.getAllCountries();
         divisionList = division.getAllDivisions();
-
-
         newCountry.setItems(countryList);
         newState.setItems(divisionList);
 

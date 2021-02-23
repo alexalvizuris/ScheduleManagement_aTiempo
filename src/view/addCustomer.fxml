@@ -17,14 +17,14 @@
       <Label layoutX="174.0" layoutY="125.0" text="Name" />
       <Label layoutX="174.0" layoutY="165.0" text="Address" />
       <Label layoutX="174.0" layoutY="205.0" text="Postal Code" />
-      <ComboBox fx:id="newCountry" layoutX="271.0" layoutY="245.0" prefHeight="17.0" prefWidth="107.0" promptText="Country" />
-      <ComboBox fx:id="newState" layoutX="390.0" layoutY="245.0" prefHeight="17.0" prefWidth="107.0" promptText="State" />
+      <ComboBox fx:id="newCountry" layoutX="271.0" layoutY="245.0" prefHeight="17.0" prefWidth="107.0" promptText="Country" onAction="#countrySelected"/>
+      <ComboBox fx:id="newState" disable="true" layoutX="390.0" layoutY="245.0" prefHeight="17.0" prefWidth="107.0" promptText="State" />
       <Label layoutX="174.0" layoutY="312.0" text="Phone Number" />
       <TextField fx:id="newName" layoutX="271.0" layoutY="120.0" prefHeight="27.0" prefWidth="226.0" promptText="required" />
       <TextField fx:id="newAddress" layoutX="271.0" layoutY="160.0" prefHeight="27.0" prefWidth="226.0" promptText="required" />
       <TextField fx:id="newPostal" layoutX="271.0" layoutY="200.0" prefHeight="27.0" prefWidth="107.0" promptText="required" />
       <TextField fx:id="newPhone" layoutX="271.0" layoutY="307.0" prefHeight="27.0" prefWidth="226.0" promptText="required" />
-      <Button fx:id="newCustSave" layoutX="271.0" layoutY="363.0" mnemonicParsing="false" prefWidth="90.0" text="Save" onAction="#newCustSaveSelected"/>
-      <Button fx:id="newCustCancel" layoutX="378.0" layoutY="363.0" mnemonicParsing="false" prefWidth="90.0" text="Cancel" onAction="#newCustCancelSelected" />
+      <Button fx:id="newCustSave" layoutX="271.0" layoutY="363.0" mnemonicParsing="false" onAction="#newCustSaveSelected" prefWidth="90.0" text="Save" />
+      <Button fx:id="newCustCancel" layoutX="378.0" layoutY="363.0" mnemonicParsing="false" onAction="#newCustCancelSelected" prefWidth="90.0" text="Cancel" />
    </children>
 </AnchorPane>
