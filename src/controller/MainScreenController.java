@@ -3,6 +3,7 @@ package controller;
 import database.impl.AppointmentImpl;
 
 import database.impl.CustomerImpl;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -167,9 +168,9 @@ public class MainScreenController {
 
         tableSelection.setText("View Appointments");
         weekRadioButton.setVisible(false);
-        weekRadioButton.isDisabled();
+        weekRadioButton.setDisable(true);
         monthRadioButton.setVisible(false);
-        monthRadioButton.isDisabled();
+        monthRadioButton.setDisable(true);
         mainLabel.setText("Customers");
         mainTableView.setVisible(false);
         mainTableView.isDisabled();
@@ -183,6 +184,8 @@ public class MainScreenController {
         custUpdate.setDisable(false);
         custDelete.setVisible(true);
         custDelete.setDisable(false);
+        viewAllRadioButton.setVisible(false);
+        viewAllRadioButton.setDisable(true);
 
 
     }
@@ -207,6 +210,8 @@ public class MainScreenController {
         updateButton.setVisible(true);
         deleteButton.setVisible(true);
         deleteButton.setDisable(false);
+        viewAllRadioButton.setVisible(true);
+        viewAllRadioButton.setDisable(false);
 
 
     }
@@ -268,12 +273,26 @@ public class MainScreenController {
 
     public void deleteCustomer(ActionEvent event) {
 
+        ObservableList<Appointment> allAppt = FXCollections.observableArrayList();
+        AppointmentImpl impl = new AppointmentImpl();
+        allAppt = impl.getAllAppt();
+
         if (customerTable.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("An Error has occurred");
             alert.setContentText("Please select a Customer to delete.");
             alert.showAndWait();
             return;
+        }
+
+        for (int i = 0; i < allAppt.size(); i++) {
+            if (customerTable.getSelectionModel().getSelectedItem().getCustomerID() == allAppt.get(i).getCustomerID()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("An Error has occurred");
+                alert.setContentText("This customer is still associated to 1 or more appointments. Cannot delete.");
+                alert.showAndWait();
+                return;
+            }
         }
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You are deleting a customer. Continue?");

@@ -85,7 +85,9 @@ public class AppointmentImpl implements AppointmentDAO {
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
                 LocalDateTime start = resultSet.getObject("Start", LocalDateTime.class);
+                Timestamp startTS = Timestamp.valueOf(start);
                 LocalDateTime end = resultSet.getObject("End", LocalDateTime.class);
+                Timestamp endTS = Timestamp.valueOf(end);
                 LocalDateTime createDate = resultSet.getObject("Create_Date", LocalDateTime.class);
                 String createdBy = resultSet.getString("Created_By");
                 Timestamp update = resultSet.getTimestamp("Last_Update");
@@ -94,7 +96,7 @@ public class AppointmentImpl implements AppointmentDAO {
                 int userId = resultSet.getInt("User_ID");
                 int contactId = resultSet.getInt("Contact_ID");
 
-                Appointment appt = new Appointment(title, description, location, type, start, end);
+                Appointment appt = new Appointment(title, description, location, type, startTS.toLocalDateTime(), endTS.toLocalDateTime());
                 appt.setAppointmentID(id);
                 appt.setCreateDate(createDate);
                 appt.setCreatedBy(createdBy);
@@ -133,7 +135,9 @@ public class AppointmentImpl implements AppointmentDAO {
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
                 LocalDateTime start = resultSet.getObject("Start", LocalDateTime.class);
+                Timestamp startTS = Timestamp.valueOf(start);
                 LocalDateTime end = resultSet.getObject("End", LocalDateTime.class);
+                Timestamp endTS = Timestamp.valueOf(end);
                 LocalDateTime createDate = resultSet.getObject("Create_Date", LocalDateTime.class);
                 String createdBy = resultSet.getString("Created_By");
                 Timestamp update = resultSet.getTimestamp("Last_Update");
@@ -142,7 +146,7 @@ public class AppointmentImpl implements AppointmentDAO {
                 int userId = resultSet.getInt("User_ID");
                 int contactId = resultSet.getInt("Contact_ID");
 
-                Appointment appt = new Appointment(title, description, location, type, start, end);
+                Appointment appt = new Appointment(title, description, location, type, startTS.toLocalDateTime(), endTS.toLocalDateTime());
                 appt.setAppointmentID(id);
                 appt.setCreateDate(createDate);
                 appt.setCreatedBy(createdBy);
@@ -179,7 +183,9 @@ public class AppointmentImpl implements AppointmentDAO {
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
                 LocalDateTime start = resultSet.getObject("Start", LocalDateTime.class);
+                Timestamp startTS = Timestamp.valueOf(start);
                 LocalDateTime end = resultSet.getObject("End", LocalDateTime.class);
+                Timestamp endTS = Timestamp.valueOf(end);
                 LocalDateTime createDate = resultSet.getObject("Create_Date", LocalDateTime.class);
                 String createdBy = resultSet.getString("Created_By");
                 Timestamp update = resultSet.getTimestamp("Last_Update");
@@ -188,7 +194,7 @@ public class AppointmentImpl implements AppointmentDAO {
                 int userId = resultSet.getInt("User_ID");
                 int contactId = resultSet.getInt("Contact_ID");
 
-                Appointment appt = new Appointment(title, description, location, type, start, end);
+                Appointment appt = new Appointment(title, description, location, type, startTS.toLocalDateTime(), endTS.toLocalDateTime());
                 appt.setAppointmentID(id);
                 appt.setCreateDate(createDate);
                 appt.setCreatedBy(createdBy);
@@ -225,7 +231,9 @@ public class AppointmentImpl implements AppointmentDAO {
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
                 LocalDateTime start = resultSet.getObject("Start", LocalDateTime.class);
+                Timestamp startTS = Timestamp.valueOf(start);
                 LocalDateTime end = resultSet.getObject("End", LocalDateTime.class);
+                Timestamp endTS = Timestamp.valueOf(end);
                 LocalDateTime createDate = resultSet.getObject("Create_Date", LocalDateTime.class);
                 String createdBy = resultSet.getString("Created_By");
                 Timestamp update = resultSet.getTimestamp("Last_Update");
@@ -234,7 +242,7 @@ public class AppointmentImpl implements AppointmentDAO {
                 int userId = resultSet.getInt("User_ID");
                 int contactId = resultSet.getInt("Contact_ID");
 
-                Appointment appt = new Appointment(title, description, location, type, start, end);
+                Appointment appt = new Appointment(title, description, location, type, startTS.toLocalDateTime(), endTS.toLocalDateTime());
                 appt.setAppointmentID(id);
                 appt.setCreateDate(createDate);
                 appt.setCreatedBy(createdBy);
@@ -273,7 +281,9 @@ public class AppointmentImpl implements AppointmentDAO {
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
                 LocalDateTime start = resultSet.getObject("Start", LocalDateTime.class);
+                Timestamp startTS = Timestamp.valueOf(start);
                 LocalDateTime end = resultSet.getObject("End", LocalDateTime.class);
+                Timestamp endTS = Timestamp.valueOf(end);
                 LocalDateTime createDate = resultSet.getObject("Create_Date", LocalDateTime.class);
                 String createdBy = resultSet.getString("Created_By");
                 Timestamp update = resultSet.getTimestamp("Last_Update");
@@ -282,7 +292,7 @@ public class AppointmentImpl implements AppointmentDAO {
                 int userId = resultSet.getInt("User_ID");
                 int contactId = resultSet.getInt("Contact_ID");
 
-                Appointment appt = new Appointment(title, description, location, type, start, end);
+                Appointment appt = new Appointment(title, description, location, type, startTS.toLocalDateTime(), endTS.toLocalDateTime());
                 appt.setAppointmentID(id);
                 appt.setCreateDate(createDate);
                 appt.setCreatedBy(createdBy);

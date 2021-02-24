@@ -73,6 +73,8 @@ public class AddAppointmentController {
 
     public void addApptSaveSelected(ActionEvent event) throws IOException {
         AppointmentImpl impl = new AppointmentImpl();
+        ObservableList<Appointment> allAppt = FXCollections.observableArrayList();
+        allAppt = impl.getAllAppt();
 
         String title = newTitle.getText();
         String description = newDescription.getText();
@@ -93,6 +95,33 @@ public class AddAppointmentController {
         int contactID = newContact.getSelectionModel().getSelectedItem().getContactID();
         String createdBy = loggedIn.getUserName();
         String updatedBy = loggedIn.getUserName();
+
+        if (start.isAfter(end)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("Please ensure that the START of the appointment comes before the END of the appointment.");
+            alert.showAndWait();
+            return;
+        }
+
+        if (start.isBefore(LocalDateTime.now())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("Appointments cannot be made in the past.");
+            alert.showAndWait();
+            return;
+        }
+        //this is not working properly.
+        for (int i = 0; i < allAppt.size(); i++) {
+            if (allAppt.get(i).getCustomerID() == customerID && allAppt.get(i).getStart().isEqual(start)) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("An Error has occurred");
+                alert.setContentText("This customer has an appointment booked for the selected time. Please select a different day or move to a later time.");
+                alert.showAndWait();
+                return;
+            }
+        }
+
 
         Appointment newAppointment = new Appointment(title, description, location, type, start, end);
         newAppointment.setUserID(userID);
