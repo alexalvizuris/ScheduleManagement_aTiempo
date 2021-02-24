@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class AddAppointmentController {
@@ -82,13 +83,13 @@ public class AddAppointmentController {
         String type = newType.getText();
 
         LocalDate startDate = newStartDate.getValue();
-        String startString = newStartTime.getText() + ":00";
-        LocalTime startTime = LocalTime.parse(startString);
+        String startTimeString = newStartTime.getText();
+        LocalTime startTime = LocalTime.parse(startTimeString);
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
 
         LocalDate endDate = newEndDate.getValue();
-        String endString = newEndTime.getText() + ":00";
-        LocalTime endTime = LocalTime.parse(endString);
+        String endTimeString = newEndTime.getText();
+        LocalTime endTime = LocalTime.parse(endTimeString);
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
         int userID = loggedIn.getUserId();
         int customerID = newCustomer.getSelectionModel().getSelectedItem().getCustomerID();

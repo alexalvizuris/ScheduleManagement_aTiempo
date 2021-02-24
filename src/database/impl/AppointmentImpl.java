@@ -182,10 +182,8 @@ public class AppointmentImpl implements AppointmentDAO {
                 String description = resultSet.getString("Description");
                 String location = resultSet.getString("Location");
                 String type = resultSet.getString("Type");
-                LocalDateTime start = resultSet.getObject("Start", LocalDateTime.class);
-                Timestamp startTS = Timestamp.valueOf(start);
-                LocalDateTime end = resultSet.getObject("End", LocalDateTime.class);
-                Timestamp endTS = Timestamp.valueOf(end);
+                Timestamp startTS = resultSet.getTimestamp("Start");
+                Timestamp endTS = resultSet.getTimestamp("End");
                 LocalDateTime createDate = resultSet.getObject("Create_Date", LocalDateTime.class);
                 String createdBy = resultSet.getString("Created_By");
                 Timestamp update = resultSet.getTimestamp("Last_Update");
