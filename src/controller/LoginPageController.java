@@ -19,6 +19,9 @@ import model.User;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
 public class LoginPageController {
@@ -35,6 +38,11 @@ public class LoginPageController {
     @FXML
     private Button signInButton;
 
+    @FXML
+    private Label locationLabel;
+
+    @FXML
+    private Label locationText;
 
     public void signInSelected(ActionEvent event) throws IOException {
 
@@ -97,6 +105,7 @@ public class LoginPageController {
              }
 
          }
+         //Create code for right here that will correlate to the french error message
         if (count == 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Login Error");
@@ -104,6 +113,19 @@ public class LoginPageController {
             alert.showAndWait();
         }
 
+    }
+
+    public void initialize() {
+        ResourceBundle rb = ResourceBundle.getBundle("utility/Lan", Locale.getDefault());
+        locationText.setText(String.valueOf(ZonedDateTime.now().getZone()));
+
+        if (Locale.getDefault().getLanguage().equals("fr") || Locale.getDefault().getLanguage().equals("en")) {
+            username.setPromptText(rb.getString("Username"));
+            password.setPromptText(rb.getString("Password"));
+            signInButton.setText(rb.getString("SignIn"));
+            locationLabel.setText(rb.getString("Location"));
+
+        }
     }
 
 

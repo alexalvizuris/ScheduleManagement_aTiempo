@@ -27,7 +27,7 @@
             <PasswordField fx:id="password" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="270.0" promptText="password" />
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                <children>
-                  <Button fx:id="signInButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="27.0" prefWidth="100.0" text="Sign-In" onAction="#signInSelected"/>
+                  <Button fx:id="signInButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#signInSelected" prefHeight="27.0" prefWidth="100.0" text="Sign-In" />
                </children>
             </HBox>
          </children>
@@ -35,5 +35,15 @@
             <DropShadow />
          </effect>
       </VBox>
+      <Label fx:id="locationLabel" layoutX="300.0" layoutY="480.0" text="Location : ">
+         <font>
+            <Font name="Nadeem Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="locationText" layoutX="364.0" layoutY="480.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="220.0">
+         <font>
+            <Font name="Nadeem Regular" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

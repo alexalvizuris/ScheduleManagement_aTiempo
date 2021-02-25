@@ -80,12 +80,12 @@ public class AddAppointmentController {
         String type = newType.getText();
 
         LocalDate startDate = newStartDate.getValue();
-        String startTimeString = newStartTime.getText();
+        String startTimeString = newStartTime.getText() + ":00";
         LocalTime startTime = LocalTime.parse(startTimeString);
         LocalDateTime start = LocalDateTime.of(startDate, startTime);
 
         LocalDate endDate = newEndDate.getValue();
-        String endTimeString = newEndTime.getText();
+        String endTimeString = newEndTime.getText() + ":00";
         LocalTime endTime = LocalTime.parse(endTimeString);
         LocalDateTime end = LocalDateTime.of(endDate, endTime);
         int userID = loggedIn.getUserId();
