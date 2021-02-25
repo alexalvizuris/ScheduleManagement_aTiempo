@@ -3,6 +3,7 @@ package controller;
 import database.impl.AppointmentImpl;
 
 import database.impl.CustomerImpl;
+import database.impl.UserImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,6 +21,7 @@ import model.User;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class MainScreenController {
@@ -345,6 +347,8 @@ public class MainScreenController {
     public void initialize(User user) {
 
         loggedIn = user;
+        int apptId = 0;
+        String title = "";
 
         AppointmentImpl implement = new AppointmentImpl();
         mainTableView.setItems(implement.allFromUser(loggedIn.getUserId()));
@@ -374,6 +378,16 @@ public class MainScreenController {
 
         customerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
+//        ObservableList<Appointment> userAppt = FXCollections.observableArrayList();
+//        userAppt = implement.allFromUser(loggedIn.getUserId());
+//        int count = 0;
+//        for (int i = 0; i < userAppt.size(); i++) {
+//            if (userAppt.get(i).getStart().isAfter(LocalDateTime.now()) && userAppt.get(i).getStart().isBefore(LocalDateTime.now().plusMinutes(15))) {
+//                apptId = userAppt.get(i).getAppointmentID();
+//                title = userAppt.get(i).getTitle();
+//                count += 1;
+//            }
+//        }
 
 
     }
