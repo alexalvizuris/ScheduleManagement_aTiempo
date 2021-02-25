@@ -42,7 +42,7 @@ public class UpdateAppointmentController {
     private TextField updateLocation;
 
     @FXML
-    private TextField updateType;
+    private ComboBox<String> updateType;
 
     @FXML
     private DatePicker updateStartDate;
@@ -83,7 +83,7 @@ public class UpdateAppointmentController {
         String title = updateTitle.getText();
         String description = updateDescription.getText();
         String location = updateLocation.getText();
-        String type = updateType.getText();
+        String type = updateType.getSelectionModel().getSelectedItem();
 
         LocalDate startDate = updateStartDate.getValue();
         String startString = updateStartTime.getText() + ":00";
@@ -219,7 +219,7 @@ public class UpdateAppointmentController {
         updateTitle.setText(appointment.getTitle());
         updateDescription.setText(appointment.getDescription());
         updateLocation.setText(appointment.getLocation());
-        updateType.setText(appointment.getType());
+        updateType.setValue(appointment.getType());
         LocalTime startTime = appointment.getStart().toLocalTime();
         updateStartDate.setValue(appointment.getStart().toLocalDate());
         updateStartTime.setText(startTime.toString());

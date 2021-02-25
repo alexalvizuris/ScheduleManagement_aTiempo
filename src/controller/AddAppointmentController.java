@@ -37,7 +37,7 @@ public class AddAppointmentController {
     private TextField newLocation;
 
     @FXML
-    private TextField newType;
+    private ComboBox<String> newType;
 
     @FXML
     private DatePicker newStartDate;
@@ -71,13 +71,14 @@ public class AddAppointmentController {
 
 
 
+
     public void addApptSaveSelected(ActionEvent event) throws IOException {
 
 
         String title = newTitle.getText();
         String description = newDescription.getText();
         String location = newLocation.getText();
-        String type = newType.getText();
+        String type = newType.getSelectionModel().getSelectedItem();
 
         LocalDate startDate = newStartDate.getValue();
         String startTimeString = newStartTime.getText() + ":00";
@@ -197,6 +198,9 @@ public class AddAppointmentController {
         ObservableList<User> userChoices = FXCollections.observableArrayList();
         ObservableList<Customer> custChoices = FXCollections.observableArrayList();
         ObservableList<Contact> contactChoices = FXCollections.observableArrayList();
+        ObservableList<String> types = FXCollections.observableArrayList();
+        types.add("Virtual");
+        types.add("In-Person");
         userChoices = userI.getAllUsers();
 
         custChoices = custI.allCustomers();
@@ -207,6 +211,7 @@ public class AddAppointmentController {
         newContact.setItems(contactChoices);
         newCustomer.setItems(custChoices);
 
+        newType.setItems(types);
 
     }
 
