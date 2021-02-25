@@ -10,6 +10,7 @@ import model.User;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 
 public class AppointmentImpl implements AppointmentDAO {
@@ -39,6 +40,9 @@ public class AppointmentImpl implements AppointmentDAO {
 
     // Initializes Read All Month
     private static final String ALL_MONTH = "SELECT * FROM appointments WHERE MONTH(Start) = MONTH(CURDATE()) AND User_ID = ?";
+
+    // Initializes Read All of Customer
+    private static final String ALL_CUSTOMER = "SELECT * FROM appointments WHERE Customer_ID = ?";
 
 
     public Appointment create(Appointment appointment) {
@@ -309,6 +313,51 @@ public class AppointmentImpl implements AppointmentDAO {
         }
         DBConnection.closeConnection();
         return monthlyAppts;
+    }
+
+    public ArrayList<Appointment> allCustomerAppt(int customerID) {
+        ArrayList<Appointment> apptList = new ArrayList<>();
+        Connection conn = DBConnection.startConnection();
+
+        try(PreparedStatement statement = conn.prepareStatement(ALL_CUSTOMER)) {
+            statement.setInt(1, customerID);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                int id = resultSet.getInt("Appointment_ID");
+                String title = resultSet.getString("Title");
+                String description = resultSet.getString("Description");
+                String location = resultSet.getString("Location");
+                String type = resultSet.getString("Type");
+                Timestamp startTS = resultSet.getTimestamp("Start");
+                Timestamp endTS = resultSet.getTimestamp("End");
+                LocalDateTime createDate = resultSet.getObject("Create_Date", LocalDateTime.class);
+                String createdBy = resultSet.getString("Created_By");
+                Timestamp update = resultSet.getTimestamp("Last_Update");
+                String updatedBy = resultSet.getString("Last_Updated_By");
+                int customerId = resultSet.getInt("Customer_ID");
+                int userId = resultSet.getInt("User_ID");
+                int contactId = resultSet.getInt("Contact_ID");
+
+                Appointment appt = new Appointment(title, description, location, type, startTS.toLocalDateTime(), endTS.toLocalDateTime());
+                appt.setAppointmentID(id);
+                appt.setCreateDate(createDate);
+                appt.setCreatedBy(createdBy);
+                appt.setLastUpdate(update);
+                appt.setLastUpdatedBy(updatedBy);
+                appt.setCustomerID(customerId);
+                appt.setUserID(userId);
+                appt.setContactID(contactId);
+
+                apptList.add(appt);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        DBConnection.closeConnection();
+        return apptList;
     }
 
 

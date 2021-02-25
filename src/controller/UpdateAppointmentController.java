@@ -22,10 +22,10 @@ import model.User;
 import javax.xml.stream.Location;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.TimeZone;
 
 public class UpdateAppointmentController {
 
@@ -100,6 +100,36 @@ public class UpdateAppointmentController {
         Timestamp update = Timestamp.valueOf(LocalDateTime.now());
         String updatedBy = loggedIn.getUserName();
 
+        if (start.isAfter(end)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("Please ensure that the START of the appointment comes before the END of the appointment.");
+            alert.showAndWait();
+            return;
+        }
+
+        if (start.isBefore(LocalDateTime.now())) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("Appointments cannot be made in the past.");
+            alert.showAndWait();
+            return;
+        }
+
+
+        ArrayList<Appointment> custAppt = new ArrayList<>();
+        custAppt = impl.allCustomerAppt(customerID);
+
+        for (int i = 0; i < custAppt.size(); i++) {
+            if ((custAppt.get(i).getStart().isEqual(start)) || (custAppt.get(i).getEnd().isEqual(end))) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("An Error has occurred");
+                alert.setContentText("This customer is currently booked at the entered hour. Please enter a separate time slot.");
+                alert.showAndWait();
+                return;
+            }
+        }
+
         Appointment newAppointment = new Appointment(title, description, location, type, start, end);
         newAppointment.setUserID(userID);
         newAppointment.setCustomerID(customerID);
@@ -107,6 +137,20 @@ public class UpdateAppointmentController {
         newAppointment.setAppointmentID(Integer.valueOf(id));
         newAppointment.setLastUpdate(update);
         newAppointment.setLastUpdatedBy(updatedBy);
+
+        ZoneId eastCoast = ZoneId.of("America/New_York");
+        ZoneId local = ZoneId.of(TimeZone.getDefault().getID());
+
+        ZonedDateTime localDateTime = ZonedDateTime.of(startDate, startTime, local);
+        ZonedDateTime toEastCoastTime = localDateTime.withZoneSameInstant(eastCoast);
+
+        if (toEastCoastTime.toLocalTime().isBefore(LocalTime.of(8, 0)) || toEastCoastTime.toLocalTime().isAfter(LocalTime.of(21, 59))) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("The time you entered is outside of normal business hours. Please select a time between 8AM and 10PM EST.");
+            alert.showAndWait();
+            return;
+        }
 
 
         impl.update(newAppointment);

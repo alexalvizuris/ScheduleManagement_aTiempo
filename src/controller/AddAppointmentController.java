@@ -20,11 +20,10 @@ import model.Customer;
 import model.User;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
+import java.time.*;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.TimeZone;
 
 public class AddAppointmentController {
 
@@ -73,9 +72,7 @@ public class AddAppointmentController {
 
 
     public void addApptSaveSelected(ActionEvent event) throws IOException {
-        AppointmentImpl impl = new AppointmentImpl();
-        ObservableList<Appointment> allAppt = FXCollections.observableArrayList();
-        allAppt = impl.getAllAppt();
+
 
         String title = newTitle.getText();
         String description = newDescription.getText();
@@ -112,12 +109,16 @@ public class AddAppointmentController {
             alert.showAndWait();
             return;
         }
-        //this is not working properly.
-        for (int i = 0; i < allAppt.size(); i++) {
-            if (allAppt.get(i).getCustomerID() == customerID && allAppt.get(i).getStart().isEqual(start)) {
+
+        AppointmentImpl impl = new AppointmentImpl();
+        ArrayList<Appointment> custAppt = new ArrayList<>();
+        custAppt = impl.allCustomerAppt(customerID);
+
+        for (int i = 0; i < custAppt.size(); i++) {
+            if ((custAppt.get(i).getStart().isEqual(start)) || (custAppt.get(i).getEnd().isEqual(end))) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("An Error has occurred");
-                alert.setContentText("This customer has an appointment booked for the selected time. Please select a different day or move to a later time.");
+                alert.setContentText("This customer is currently booked at the entered hour. Please enter a separate time slot.");
                 alert.showAndWait();
                 return;
             }
@@ -130,6 +131,21 @@ public class AddAppointmentController {
         newAppointment.setContactID(contactID);
         newAppointment.setCreatedBy(createdBy);
         newAppointment.setLastUpdatedBy(updatedBy);
+
+        ZoneId eastCoast = ZoneId.of("America/New_York");
+        ZoneId local = ZoneId.of(TimeZone.getDefault().getID());
+
+        ZonedDateTime localDateTime = ZonedDateTime.of(startDate, startTime, local);
+        ZonedDateTime toEastCoastTime = localDateTime.withZoneSameInstant(eastCoast);
+
+        if (toEastCoastTime.toLocalTime().isBefore(LocalTime.of(8, 0)) || toEastCoastTime.toLocalTime().isAfter(LocalTime.of(21, 59))) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("The time you entered is outside of normal business hours. Please select a time between 8AM and 10PM EST.");
+            alert.showAndWait();
+            return;
+        }
+
 
         impl.create(newAppointment);
 
