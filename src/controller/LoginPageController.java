@@ -46,6 +46,8 @@ public class LoginPageController {
 
     public void signInSelected(ActionEvent event) throws IOException {
 
+        ResourceBundle rb = ResourceBundle.getBundle("utility/Lan", Locale.getDefault());
+
          UserImpl implement = new UserImpl();
          AppointmentImpl apptImpl = new AppointmentImpl();
          ObservableList<User> acceptableUsers = implement.getAllUsers();
@@ -107,10 +109,12 @@ public class LoginPageController {
          }
          //Create code for right here that will correlate to the french error message
         if (count == 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Login Error");
-            alert.setContentText("The username or password was incorrect. Please try again.");
-            alert.showAndWait();
+            if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle(rb.getString("Error"));
+                alert.setContentText(rb.getString("ErrorMessage"));
+                alert.showAndWait();
+            }
         }
 
     }
