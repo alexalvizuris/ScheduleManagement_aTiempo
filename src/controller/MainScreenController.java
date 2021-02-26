@@ -221,6 +221,14 @@ public class MainScreenController {
 
     public void updateSelected(ActionEvent event) throws IOException {
 
+        if (mainTableView.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("Please select an Appointment to modify.");
+            alert.showAndWait();
+            return;
+        }
+
             FXMLLoader loader = new FXMLLoader();
 
             loader.setLocation(getClass().getResource("/view/updateAppointment.fxml"));
@@ -237,6 +245,14 @@ public class MainScreenController {
     }
 
     public void custUpdate(ActionEvent event) throws IOException {
+
+        if (customerTable.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("Please select a Customer to modify.");
+            alert.showAndWait();
+            return;
+        }
 
         FXMLLoader loader = new FXMLLoader();
 
@@ -255,13 +271,6 @@ public class MainScreenController {
 
     public void deleteAppointment(ActionEvent event) {
 
-        AppointmentImpl impl = new AppointmentImpl();
-        ObservableList<Appointment> appts = FXCollections.observableArrayList();
-        appts = impl.allFromUser(loggedIn.getUserId());
-        String typeDeleted = mainTableView.getSelectionModel().getSelectedItem().getType();
-        int id = mainTableView.getSelectionModel().getSelectedItem().getAppointmentID();
-
-
         if (mainTableView.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("An Error has occurred");
@@ -269,6 +278,11 @@ public class MainScreenController {
             alert.showAndWait();
             return;
         }
+
+        String typeDeleted = mainTableView.getSelectionModel().getSelectedItem().getType();
+        int id = mainTableView.getSelectionModel().getSelectedItem().getAppointmentID();
+
+
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You are deleting a(n) " + typeDeleted + " appointment. Appointment ID: " + id + ". Continue?");
         Optional<ButtonType> selectedButton = alert.showAndWait();

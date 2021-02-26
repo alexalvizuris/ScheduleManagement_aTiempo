@@ -7,11 +7,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<?import javafx.scene.control.ToggleGroup?>
 <AnchorPane prefHeight="550.0" prefWidth="1208.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ReportController">
    <children>
       <Separator layoutX="279.0" orientation="VERTICAL" prefHeight="491.0" prefWidth="6.0" />
@@ -27,7 +26,7 @@
             <TableColumn fx:id="contactEnd" prefWidth="37.0" text="End" />
         </columns>
       </TableView>
-      <TextArea fx:id="recordText" disable="true" layoutX="14.0" layoutY="76.0" prefHeight="405.0" prefWidth="252.0" />
+      <TextArea fx:id="recordText" editable="false" layoutX="14.0" layoutY="76.0" prefHeight="405.0" prefWidth="252.0" />
       <Label layoutX="377.0" prefHeight="35.0" prefWidth="270.0" text="Appointments by Contact">
          <font>
             <Font name="Nadeem Regular" size="24.0" />
@@ -41,14 +40,17 @@
        <fx:define>
            <ToggleGroup fx:id="typeGroup" />
        </fx:define>
-      <RadioButton fx:id="virtualRadio" layoutX="1107.0" layoutY="51.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="59.0" text="Virtual" toggleGroup="$typeGroup" selected="true" onAction="#virtualSelected" />
-      <RadioButton fx:id="personRadio" layoutX="1005.0" layoutY="51.0" mnemonicParsing="false" text="In-Person" toggleGroup="$typeGroup" onAction="#personSelected" />
+      <RadioButton fx:id="virtualRadio" layoutX="1107.0" layoutY="51.0" mnemonicParsing="false" onAction="#virtualSelected" prefHeight="18.0" prefWidth="59.0" selected="true" text="Virtual">
+         <toggleGroup>
+            <ToggleGroup fx:id="typeGroup" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="personRadio" layoutX="1005.0" layoutY="51.0" mnemonicParsing="false" onAction="#personSelected" text="In-Person" toggleGroup="$typeGroup" />
       <Label layoutX="93.0" prefHeight="30.0" prefWidth="94.0" text="Records">
          <font>
             <Font name="Nadeem Regular" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="returnButton" layoutX="1033.0" layoutY="509.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="148.0" text="Return" onAction="#ReturnSelected"/>
+      <Button fx:id="returnButton" layoutX="1033.0" layoutY="509.0" mnemonicParsing="false" onAction="#ReturnSelected" prefHeight="27.0" prefWidth="148.0" text="Return" />
       <Separator layoutX="742.0" orientation="VERTICAL" prefHeight="491.0" prefWidth="6.0" />
       <Separator layoutY="492.5" prefHeight="3.0" prefWidth="1200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="492.5" />
       <TableView fx:id="typeTable" layoutX="759.0" layoutY="73.0" prefHeight="405.0" prefWidth="433.0">

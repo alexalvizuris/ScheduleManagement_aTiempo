@@ -148,7 +148,7 @@ public class ReportController {
         }
 
 
-        // Utilize a lambda expression to compare each appointment by the appointment after it, and sort by the contact name.
+        // Utilized a lambda expression to compare each appointment by the appointment after it, and sort by the contact name.
 
         Comparator<Appointment> appointmentComparator = (appt1, appt2) -> appt1.getContactName().compareTo(appt2.getContactName());
         appts.sort(appointmentComparator);
@@ -172,6 +172,76 @@ public class ReportController {
         typeStart.setCellValueFactory(new PropertyValueFactory<>("start"));
         typeEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
 
+        int person = 0;
+        int online = 0;
+        int jan = 0;
+        int feb = 0;
+        int march = 0;
+        int april = 0;
+        int may = 0;
+        int june = 0;
+        int july = 0;
+        int aug = 0;
+        int sept = 0;
+        int oct = 0;
+        int nov = 0;
+        int dec = 0;
+
+        ObservableList<Appointment> reportList = FXCollections.observableArrayList();
+        reportList = impl.allFromUser(loggedIn.getUserId());
+
+        for (int i = 0; i < reportList.size(); i++) {
+            if (reportList.get(i).getType().equals("In-Person")) {
+                person += 1;
+            }
+            if (reportList.get(i).getType().equals("Virtual")) {
+                online += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 1) {
+                jan += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 2) {
+                feb += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 3) {
+                march += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 4) {
+                april += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 5) {
+                may += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 6) {
+                june += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 7) {
+                july += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 8) {
+                aug += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 9) {
+                sept += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 10) {
+                oct += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 11) {
+                nov += 1;
+            }
+            if (reportList.get(i).getStart().getMonthValue() == 12) {
+                dec += 1;
+            }
+        }
+
+        recordText.setText("Total number of In-Person appointments: " + person + "\nTotal number of Virtual appointments: " + online + "\n\n\n" +
+                            "\nTotal number of appointments in January: " + jan + "\nTotal number of appointments in February: " + feb +
+                            "\nTotal number of appointments in March: " + march + "\nTotal number of appointments in April: " + april +
+                            "\nTotal number of appointments in May: " + may + "\nTotal number of appointments in June: " + june +
+                            "\nTotal number of appointments in July: " + july + "\nTotal number of appointments in August: " + aug +
+                            "\nTotal number of appointments in September: " + sept + "\nTotal number of appointments in October: " + oct +
+                            "\nTotal number of appointments in November: " + nov + "\nTotal number of appointments in December: " + dec);
 
 
 
