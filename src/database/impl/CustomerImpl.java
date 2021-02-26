@@ -13,6 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+/**
+ * Customer implementation class for customer DAO
+ */
 public class CustomerImpl implements CustomerDAO {
 
     // Initializes Insert string
@@ -33,6 +36,12 @@ public class CustomerImpl implements CustomerDAO {
     private static final String DELETE = "DELETE FROM customers WHERE Customer_ID = ?";
 
 
+    /**
+     * Insert statement for customer table
+     * @param customer references customer object being created
+     * @return new customer
+     * @throws SQLException when issues occur with reading from the database
+     */
     @Override
     public Customer create(Customer customer) {
         Connection conn = DBConnection.startConnection();
@@ -57,8 +66,12 @@ public class CustomerImpl implements CustomerDAO {
     }
 
 
-
-
+    /**
+     * Read statement for customer table
+     * @param customerID references customer being read
+     * @return selected customer
+     * @throws SQLException when issues occur with reading from the database
+     */
     @Override
     public Customer getCustomer(int customerID) {
         // Establish connection to the database
@@ -100,8 +113,11 @@ public class CustomerImpl implements CustomerDAO {
     }
 
 
-
-
+    /**
+     * Read All statement for customer table
+     * @return all customers
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ObservableList<Customer> allCustomers() {
         ObservableList<Customer> allCust = FXCollections.observableArrayList();
         Connection conn = DBConnection.startConnection();
@@ -139,6 +155,11 @@ public class CustomerImpl implements CustomerDAO {
     }
 
 
+    /**
+     * Update statement for customer table
+     * @param customer references customer being updated
+     * @throws SQLException when issues occur with reading from the database
+     */
     @Override
     public void update(Customer customer) {
 
@@ -174,8 +195,11 @@ public class CustomerImpl implements CustomerDAO {
     }
 
 
-
-
+    /**
+     * Delete statement for customer table
+     * @param customerID references customer being deleted from the database
+     * @throws SQLException when issues occur with reading from the database
+     */
     public void delete(int customerID) {
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(DELETE)) {

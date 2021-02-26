@@ -6,12 +6,15 @@ import database.interfaces.ContactDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Contact;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+/**
+ * Contact implementation class of Contact DAO
+ */
 public class ContactImpl implements ContactDAO {
 
     // Initializes Create string
@@ -30,9 +33,12 @@ public class ContactImpl implements ContactDAO {
     private static final String DELETE = "DELETE FROM contacts WHERE Contact_ID = ?";
 
 
-
-
-
+    /**
+     * Insert statement for contact table.
+     * @param contact references new contact object
+     * @return new contact
+     * @throws SQLException when issues occur with reading from the database
+     */
     public Contact create(Contact contact) {
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(INSERT)) {
@@ -50,8 +56,12 @@ public class ContactImpl implements ContactDAO {
     }
 
 
-
-
+    /**
+     * Read statement for contact table
+     * @param contactID references contact being read
+     * @return contact
+     * @throws SQLException when issues occur with reading from the database
+     */
     public Contact getContact(int contactID) {
         Connection conn = DBConnection.startConnection();
 
@@ -80,8 +90,11 @@ public class ContactImpl implements ContactDAO {
     }
 
 
-
-
+    /**
+     * Read all statement statement of contact table
+     * @return all contacts
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ObservableList<Contact> getAllContacts() {
 
         Connection conn = DBConnection.startConnection();
@@ -108,8 +121,11 @@ public class ContactImpl implements ContactDAO {
     }
 
 
-
-
+    /**
+     * Update statement for contact table
+     * @param contact being updated
+     * @throws SQLException when issues occur with reading from the database
+     */
     public void update(Contact contact) {
         Connection conn = DBConnection.startConnection();
 
@@ -133,8 +149,11 @@ public class ContactImpl implements ContactDAO {
     }
 
 
-
-
+    /**
+     * Delete statement for contact table
+     * @param contactID references contact being deleted
+     * @throws SQLException when issues occur with reading from the database
+     */
     public void delete(int contactID) {
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(DELETE)) {

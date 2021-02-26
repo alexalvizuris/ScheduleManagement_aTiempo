@@ -21,11 +21,14 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.Contact;
 import model.User;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
+
+/**
+ * Controller for the Report Screen.
+ */
 public class ReportController {
 
     @FXML
@@ -91,7 +94,11 @@ public class ReportController {
     private User loggedIn;
 
 
-
+    /**
+     * Selecting this will return the User back to the Main Screen.
+     * @param event created to initialize the Main Screen controller.
+     * @throws IOException when criteria has not been met to successfully load the Main Screen.
+     */
     public void ReturnSelected(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
@@ -107,27 +114,54 @@ public class ReportController {
         stage.show();
     }
 
+    /**
+     * Selecting this will dislplay the tableview with Appointments of type "In-Person".
+     * Utilized Lambda expression to sort by the date in each tableview so User would know which appointments are next.
+     */
     public void personSelected() {
 
         AppointmentImpl impl = new AppointmentImpl();
 
+        // Utilized a lambda expression to compare Appointments and sort by Date
+
+        Comparator<Appointment> dateComparator = (date1, date2) -> date1.getStart().toLocalDate().compareTo(date2.getStart().toLocalDate());
+        ObservableList<Appointment> reportbyDate = FXCollections.observableArrayList();
+        reportbyDate = impl.ofType("In-Person");
+        reportbyDate.sort(dateComparator);
+
         if (personRadio.isSelected()) {
-            typeTable.setItems(impl.ofType("In-Person"));
+            typeTable.setItems(reportbyDate);
         }
 
     }
 
+
+    /**
+     * Selecting this will display the tableview with Appointments of type "Virtual".
+     * Utilized Lambda expression to sort by the date in each tableview so User would know which appointments are next.
+     */
     public void virtualSelected() {
 
         AppointmentImpl impl = new AppointmentImpl();
 
+        // Utilized a lambda expression to compare Appointments and sort by Date
+
+        Comparator<Appointment> dateComparator = (date1, date2) -> date1.getStart().toLocalDate().compareTo(date2.getStart().toLocalDate());
+        ObservableList<Appointment> reportbyDate = FXCollections.observableArrayList();
+        reportbyDate = impl.ofType("Virtual");
+        reportbyDate.sort(dateComparator);
+
         if (virtualRadio.isSelected()) {
-            typeTable.setItems(impl.ofType("Virtual"));
+            typeTable.setItems(reportbyDate);
         }
     }
 
 
-
+    /**
+     * Initializes the Report Screen with Data/tableviews populated by the database.
+     * Utilized Lambda expression to sort the Contacts schedules by name.
+     * @param user references the user currently logged into the application.
+     */
     public void initReport(User user) {
         loggedIn = user;
 
@@ -164,7 +198,14 @@ public class ReportController {
         contactStart.setCellValueFactory(new PropertyValueFactory<>("start"));
         contactEnd.setCellValueFactory(new PropertyValueFactory<>("end"));
 
-        typeTable.setItems(impl.ofType("Virtual"));
+        // Utilized a lambda expression to compare Appointments and sort by Date
+
+        Comparator<Appointment> dateComparator = (date1, date2) -> date1.getStart().toLocalDate().compareTo(date2.getStart().toLocalDate());
+        ObservableList<Appointment> reportbyDate = FXCollections.observableArrayList();
+        reportbyDate = impl.ofType("Virtual");
+        reportbyDate.sort(dateComparator);
+
+        typeTable.setItems(reportbyDate);
         typeID.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
         typeCustID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         typeTitle.setCellValueFactory(new PropertyValueFactory<>("title"));

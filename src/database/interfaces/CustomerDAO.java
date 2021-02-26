@@ -4,7 +4,9 @@ import javafx.collections.ObservableList;
 import model.Customer;
 
 
-
+/**
+ * Customer interface
+ */
 public interface CustomerDAO {
 
 

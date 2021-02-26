@@ -6,10 +6,13 @@ import database.interfaces.CountryDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Country;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 
+
+/**
+ * Country implementation class for country DAO
+ */
 public class CountryImpl implements CountryDAO {
 
     // Initialize Read string
@@ -19,8 +22,12 @@ public class CountryImpl implements CountryDAO {
     private static final String GET_ALL = "SELECT * FROM countries";
 
 
-
-
+    /**
+     * Read statement for country table
+     * @param countryID references country being read
+     * @return selected country
+     * @throws SQLException when issues occur with reading from the database
+     */
     public Country getCountry(int countryID) {
         Connection conn = DBConnection.startConnection();
 
@@ -55,8 +62,11 @@ public class CountryImpl implements CountryDAO {
     }
 
 
-
-
+    /**
+     * Read all statement for country table
+     * @return all countries
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ObservableList<Country> getAllCountries() {
         Connection conn = DBConnection.startConnection();
         ObservableList<Country> countries = FXCollections.observableArrayList();

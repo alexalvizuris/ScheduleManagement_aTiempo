@@ -3,6 +3,9 @@ package database.interfaces;
 import javafx.collections.ObservableList;
 import model.Appointment;
 
+/**
+ * Appointment interface
+ */
 public interface AppointmentDAO {
 
 

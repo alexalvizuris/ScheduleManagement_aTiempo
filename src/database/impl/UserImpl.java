@@ -5,10 +5,13 @@ import database.interfaces.UserDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.User;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 
+
+/**
+ * User implementation class for User DAO
+ */
 public class UserImpl implements UserDAO {
 
     // Initializes Create string
@@ -29,6 +32,12 @@ public class UserImpl implements UserDAO {
     private static final String DELETE = "DELETE FROM users WHERE User_ID = ?";
 
 
+    /**
+     * Insert statement for user talble in the database
+     * @param user references new User object being created
+     * @return new user
+     * @throws SQLException when issues occur with reading from the database
+     */
     public User create(User user) {
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(INSERT)) {
@@ -48,8 +57,12 @@ public class UserImpl implements UserDAO {
     }
 
 
-
-
+    /**
+     * Read statement for User table
+     * @param userID references user being read
+     * @return selected User
+     * @throws SQLException when issues occur with reading from the database
+     */
     public User getUser(int userID) {
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(GET_USER)) {
@@ -83,6 +96,11 @@ public class UserImpl implements UserDAO {
     }
 
 
+    /**
+     * Read All statement for User table in the database
+     * @return all users in database
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ObservableList<User> getAllUsers() {
         Connection conn = DBConnection.startConnection();
         ObservableList<User> allUsers = FXCollections.observableArrayList();
@@ -117,6 +135,11 @@ public class UserImpl implements UserDAO {
     }
 
 
+    /**
+     * Update statement for User table in database
+     * @param user references user being updated
+     * @throws SQLException when issues occur with reading from the database
+     */
     public void update(User user) {
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(UPDATE)) {
@@ -145,6 +168,11 @@ public class UserImpl implements UserDAO {
     }
 
 
+    /**
+     * Delete statement for User table in the database
+     * @param userID references user being deleted
+     * @throws SQLException when issues occur with reading from the database
+     */
     public void delete(int userID) {
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(DELETE)) {

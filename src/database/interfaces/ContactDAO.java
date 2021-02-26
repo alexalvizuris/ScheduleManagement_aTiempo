@@ -3,6 +3,9 @@ package database.interfaces;
 import javafx.collections.ObservableList;
 import model.Contact;
 
+/**
+ * Contact interface
+ */
 public interface ContactDAO {
 
 

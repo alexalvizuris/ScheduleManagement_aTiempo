@@ -5,10 +5,13 @@ import database.interfaces.FirstLevelDivisionDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.FirstLevelDivision;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 
+
+/**
+ * First Level Division implementation class for FLD DAO
+ */
 public class FirstLevelDivisionImpl implements FirstLevelDivisionDAO {
 
     //Initiate Read string
@@ -19,7 +22,12 @@ public class FirstLevelDivisionImpl implements FirstLevelDivisionDAO {
     private static final String GET_ALL = "SELECT * FROM first_level_divisions";
 
 
-
+    /**
+     * Read statement from first level division table
+     * @param firstLevelDivisionID references division being read
+     * @return first level division selected
+     * @throws SQLException when issues occur with reading from the database
+     */
     public FirstLevelDivision getDivision(int firstLevelDivisionID) {
         Connection conn = DBConnection.startConnection();
 
@@ -55,6 +63,11 @@ public class FirstLevelDivisionImpl implements FirstLevelDivisionDAO {
     }
 
 
+    /**
+     * Read all statement from first level division table in the database
+     * @return selected division
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ObservableList<FirstLevelDivision> getAllDivisions() {
 
         Connection conn = DBConnection.startConnection();

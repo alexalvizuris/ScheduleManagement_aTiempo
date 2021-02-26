@@ -3,6 +3,9 @@ package database.interfaces;
 import javafx.collections.ObservableList;
 import model.Country;
 
+/**
+ * Country interface
+ */
 public interface CountryDAO {
 
 

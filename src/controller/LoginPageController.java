@@ -16,14 +16,19 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.User;
-
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 
+/**
+ * Controller for the Login Screen.
+ */
 public class LoginPageController {
 
     @FXML
@@ -44,6 +49,13 @@ public class LoginPageController {
     @FXML
     private Label locationText;
 
+
+    /**
+     * Selecting this will verify if a username and password combo are acceptable and takes the User to the Main Screen.
+     * A pop up message will generate whether or not an Appointment is scheduled for the user within the next 15 minutes.
+     * @param event created to initialize the Sign-In Method on the Login Screen.
+     * @throws IOException when criteria is not met to successfully move onto the Main Screen.
+     */
     public void signInSelected(ActionEvent event) throws IOException {
 
         ResourceBundle rb = ResourceBundle.getBundle("utility/Lan", Locale.getDefault());
@@ -64,6 +76,14 @@ public class LoginPageController {
          for (int i = 0; i < acceptableUsers.size(); i++) {
              if (acceptableUsers.get(i).getUserName().equals(usernameInput) && acceptableUsers.get(i).getPassword().equals(passwordInput)) {
                  count += 1;
+
+                 String fileEntry = "login_activity.txt", entry;
+                 FileWriter writer = new FileWriter(fileEntry, true);
+                 PrintWriter print = new PrintWriter(writer);
+
+                 entry = String.valueOf(LocalDateTime.now()) + " SUCCESSFUL login attempt by: " + usernameInput + ".";
+                 print.println(entry);
+                 print.close();
 
                  userID = acceptableUsers.get(i).getUserId();
                  ObservableList<Appointment> userAppt = FXCollections.observableArrayList();
@@ -110,6 +130,15 @@ public class LoginPageController {
          }
 
         if (count == 0) {
+
+            String fileEntry = "login_activity.txt", entry;
+            FileWriter writer = new FileWriter(fileEntry, true);
+            PrintWriter print = new PrintWriter(writer);
+
+            entry = String.valueOf(LocalDateTime.now()) + " UNSUCCESSFUL login attempt by: " + usernameInput + ".";
+            print.println(entry);
+            print.close();
+
             if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(rb.getString("Error"));
@@ -120,6 +149,10 @@ public class LoginPageController {
 
     }
 
+
+    /**
+     * Initializes the Login Screen with information about the current Users Location. This will determine which language to display on the screen.
+     */
     public void initialize() {
         ResourceBundle rb = ResourceBundle.getBundle("utility/Lan", Locale.getDefault());
         locationText.setText(String.valueOf(ZonedDateTime.now().getZone()));

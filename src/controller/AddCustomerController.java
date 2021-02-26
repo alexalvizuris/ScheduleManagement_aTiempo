@@ -17,11 +17,13 @@ import model.Country;
 import model.Customer;
 import model.FirstLevelDivision;
 import model.User;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Optional;
 
+
+/**
+ * Controller for the Add Customer Screen.
+ */
 public class AddCustomerController {
 
     @FXML
@@ -50,6 +52,11 @@ public class AddCustomerController {
 
     private User loggedIn;
 
+    /**
+     * Selecting this will NOT save any data from the screen, and return back to the Main Screen.
+     * @param event created to initialize the CANCEL method on the Add Customer Screen.
+     * @throws IOException when criteria is not met to successfully return back to the Main Screen.
+     */
     public void newCustCancelSelected(ActionEvent event) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No data will be saved. Continue?");
@@ -73,6 +80,12 @@ public class AddCustomerController {
         }
     }
 
+
+    /**
+     * Selecting this will add the customer to the database, and return back to the Main Screen.
+     * @param event created to initialize the SAVE method on the Add Customer Screen.
+     * @throws IOException when criteria is not met to successfully return back to the Main Screen.
+     */
     public void newCustSaveSelected(ActionEvent event) throws IOException {
 
 
@@ -113,6 +126,9 @@ public class AddCustomerController {
 
     }
 
+    /**
+     * When a country is selected from the ComboBox, it will then fill the States ComboBox with the Appropriate First Level Division.
+     */
     public void countrySelected() {
 
         FirstLevelDivisionImpl divisionImpl = new FirstLevelDivisionImpl();
@@ -132,6 +148,11 @@ public class AddCustomerController {
         }
     }
 
+
+    /**
+     * Initializes the Add Customer Screen with Observable Array Lists to pre fill the Country and State ComboBoxes.
+     * @param user references the current user logged into the application.
+     */
     public void initialize(User user) {
 
         loggedIn = user;

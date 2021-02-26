@@ -18,8 +18,6 @@ import model.Appointment;
 import model.Contact;
 import model.Customer;
 import model.User;
-
-import javax.xml.stream.Location;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.*;
@@ -27,6 +25,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.TimeZone;
 
+
+/**
+ * Controller for the Update Appointment Screen.
+ */
 public class UpdateAppointmentController {
 
     @FXML
@@ -74,7 +76,11 @@ public class UpdateAppointmentController {
     private User loggedIn;
 
 
-
+    /**
+     * Selecting this will UPDATE the Appointment information in the database.
+     * @param event created to initialize the Main Screen controller.
+     * @throws IOException when criteria has not been met to successfully load the Main Screen.
+     */
     public void updateSaveSelected(ActionEvent event) throws IOException {
 
         AppointmentImpl impl = new AppointmentImpl();
@@ -172,6 +178,11 @@ public class UpdateAppointmentController {
     }
 
 
+    /**
+     * Selecting this will not save any data from the screen and return the User back to the Main Screen.
+     * @param event created to initialize the Main Screen Controller.
+     * @throws IOException when criteria has not been met to successfully load the Main Screen.
+     */
     public void updateCancelSelected(ActionEvent event) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No data will be saved. Continue?");
@@ -196,6 +207,11 @@ public class UpdateAppointmentController {
     }
 
 
+    /**
+     * Initializes the Update Appointment Screen with data populated from the database.
+     * @param appointment references the Appointment being populated
+     * @param user references the current User logged into the application
+     */
     public void initApptData(Appointment appointment, User user) {
 
         loggedIn = user;

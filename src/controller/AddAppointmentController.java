@@ -18,12 +18,16 @@ import model.Appointment;
 import model.Contact;
 import model.Customer;
 import model.User;
-
 import java.io.IOException;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.TimeZone;
+
+
+/**
+ * Controller for the Add New Appointment Screen
+ */
 
 public class AddAppointmentController {
 
@@ -69,9 +73,11 @@ public class AddAppointmentController {
     private User loggedIn;
 
 
-
-
-
+    /**
+     * Selecting this will add the appointment to the database, then switch back to the Main Screen.
+     * @param event created to initiate the SAVE method on the Add Appointment Screen.
+     * @throws IOException when criteria has not been met to allow the appointment to save successfully.
+     */
     public void addApptSaveSelected(ActionEvent event) throws IOException {
 
 
@@ -166,6 +172,11 @@ public class AddAppointmentController {
 
     }
 
+    /**
+     * Selecting this will NOT save any data from the screen, and return back to the Main Screen.
+     * @param event created to initiate the CANCEL method on the Add Appointment Screen.
+     * @throws IOException when criteria has not been met to successfully move back to the Main Screen.
+     */
     public void addApptCancelSelected(ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No data will be saved. Continue?");
         Optional<ButtonType> confirm = alert.showAndWait();
@@ -188,7 +199,10 @@ public class AddAppointmentController {
 
     }
 
-
+    /**
+     * Initializes the Add Appointment Screen with ComboBoxes prefilled with data from Observable Array Lists.
+     * @param user references the User who is logged in at time of initializing.
+     */
     public void initialize(User user) {
 
         loggedIn = user;

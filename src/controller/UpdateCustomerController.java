@@ -17,12 +17,15 @@ import model.Country;
 import model.Customer;
 import model.FirstLevelDivision;
 import model.User;
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+
+/**
+ * Controller for the Update Customer Screen.
+ */
 public class UpdateCustomerController {
 
     @FXML
@@ -54,6 +57,12 @@ public class UpdateCustomerController {
 
     private User loggedIn;
 
+
+    /**
+     * Selecting this will UPDATE the Appointment information in the database.
+     * @param event created to initialize the Main Screen Controller.
+     * @throws IOException when criteria has not been met to successfully load to Main Screen.
+     */
     public void updateSaveSelected(ActionEvent event) throws IOException {
         String id = String.valueOf(updateID.getText());
         String name = updateName.getText();
@@ -93,6 +102,11 @@ public class UpdateCustomerController {
     }
 
 
+    /**
+     * Selecting this will not save ana data from the screen, and return the User to the Main Screen.
+     * @param event created to initialize the Main Screen controller.
+     * @throws IOException when criteria is not met to successfully load the Main Screen.
+     */
     public void updateCancelButton(ActionEvent event) throws IOException {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No data will be saved. Continue?");
@@ -115,6 +129,11 @@ public class UpdateCustomerController {
         }
     }
 
+    /**
+     * Initializes the Update Customer Screen with Customer data populated from the database.
+     * @param customer references the customer being populated.
+     * @param user references the current User logged into the application.
+     */
     public void initCustData(Customer customer, User user) {
 
         loggedIn = user;

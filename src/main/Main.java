@@ -1,19 +1,22 @@
 package main;
 
 
-import database.impl.AppointmentImpl;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Appointment;
-
-import java.time.LocalDateTime;
 
 
+/**
+ * Main Class for application
+ */
 public class Main extends Application {
 
+    /**
+     * Executes the initial log in screen
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/view/login_page.fxml"));
@@ -24,15 +27,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-
-//        Appointment appointment = new Appointment("Date", "Movie night together", "My house", "Romance", LocalDateTime.now(), LocalDateTime.now() );
-//        appointment.setContactID(11111);
-//        appointment.setCustomerID(11111);
-//        appointment.setUserID(111111);
-//        appointment.setCreatedBy(null);
-//        appointment.setLastUpdatedBy(null);
-//        appointment.setCreateDate(null);
-//        appointment.setLastUpdate(null);
 
 
         launch(args);

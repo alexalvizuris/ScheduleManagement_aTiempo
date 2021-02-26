@@ -1,7 +1,6 @@
 package controller;
 
 import database.impl.AppointmentImpl;
-
 import database.impl.CustomerImpl;
 import database.impl.UserImpl;
 import javafx.collections.FXCollections;
@@ -18,13 +17,14 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.Customer;
 import model.User;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * Controller for the Main Screen.
+ */
 public class MainScreenController {
 
     @FXML
@@ -132,8 +132,11 @@ public class MainScreenController {
     private Label noticeLabel;
 
 
-
-
+    /**
+     * Selecting this will send the User to the Add Appointment Screen.
+     * @param event created to initialize the Add Appointment controller.
+     * @throws IOException when criteria has not been met to successfully load the Add Appointment Screen.
+     */
     public void newAppointmentSelected(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
@@ -152,6 +155,11 @@ public class MainScreenController {
 
     }
 
+    /**
+     * Selecting this will send the User to the Add Customer Screen.
+     * @param event created to initialize the Add Customer controller.
+     * @throws IOException when criteria has not been met to successfully load the Add Customer Screen.
+     */
     public void newCustomerSelected(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
@@ -170,7 +178,11 @@ public class MainScreenController {
 
     }
 
-    public void viewCustomerTable(ActionEvent event) {
+
+    /**
+     * Selecting this will switch the tableview from Appointments to Customers, and disable the Appointment radio buttons.
+     */
+    public void viewCustomerTable() {
 
         tableSelection.setText("View Appointments");
         weekRadioButton.setVisible(false);
@@ -193,10 +205,12 @@ public class MainScreenController {
         viewAllRadioButton.setVisible(false);
         viewAllRadioButton.setDisable(true);
 
-
     }
 
-    public void viewAppointmentTable(ActionEvent event) {
+    /**
+     * Selecting this will switch the tableview from Customers to Appointments and enable the Appointment radio buttons for week and month.
+     */
+    public void viewAppointmentTable() {
 
         tableSelection.setText("View Customers");
         weekRadioButton.setVisible(true);
@@ -219,9 +233,14 @@ public class MainScreenController {
         viewAllRadioButton.setVisible(true);
         viewAllRadioButton.setDisable(false);
 
-
     }
 
+
+    /**
+     * Selecting this will take the User to the Update Appointment Screen.
+     * @param event created to initialize the Update Appointment controller.
+     * @throws IOException when criteria has not been met to successfully load the Update Appointment Screen.
+     */
     public void updateSelected(ActionEvent event) throws IOException {
 
         if (mainTableView.getSelectionModel().getSelectedItem() == null) {
@@ -244,9 +263,14 @@ public class MainScreenController {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(modifyScene);
             stage.show();
-
     }
 
+
+    /**
+     * Selecting this will take the User to the Update Customer Screen.
+     * @param event created to initialize the Update Customer controller.
+     * @throws IOException when criteria has not been met to successfully load the Update Customer Screen.
+     */
     public void custUpdate(ActionEvent event) throws IOException {
 
         if (customerTable.getSelectionModel().getSelectedItem() == null) {
@@ -272,7 +296,11 @@ public class MainScreenController {
 
     }
 
-    public void deleteAppointment(ActionEvent event) {
+
+    /**
+     * Selecting this will DELETE the selected Appointment from the database.
+     */
+    public void deleteAppointment() {
 
         if (mainTableView.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -298,7 +326,11 @@ public class MainScreenController {
 
     }
 
-    public void deleteCustomer(ActionEvent event) {
+
+    /**
+     * Selecting this will DELETE the selected Customer from the database.
+     */
+    public void deleteCustomer() {
 
         ObservableList<Appointment> allAppt = FXCollections.observableArrayList();
         AppointmentImpl impl = new AppointmentImpl();
@@ -333,6 +365,10 @@ public class MainScreenController {
 
     }
 
+
+    /**
+     * Selecting this will display this weeks Appointments.
+     */
     public void weekSelected() {
         AppointmentImpl impl = new AppointmentImpl();
         if (weekRadioButton.isSelected()) {
@@ -340,6 +376,10 @@ public class MainScreenController {
         }
     }
 
+
+    /**
+     * Selecting this will display this months Appointments.
+     */
     public void monthSelected() {
         AppointmentImpl impl = new AppointmentImpl();
         if (monthRadioButton.isSelected()) {
@@ -347,6 +387,10 @@ public class MainScreenController {
         }
     }
 
+
+    /**
+     * Selecting this will return the tableview back to the original display of ALL appointments.
+     */
     public void allSelected() {
         AppointmentImpl impl = new AppointmentImpl();
         if (viewAllRadioButton.isSelected()) {
@@ -354,6 +398,12 @@ public class MainScreenController {
         }
     }
 
+
+    /**
+     * Selecting this will take the user to a screen of Reports generated with information from the database.
+     * @param event created to initialize the Reports controller.
+     * @throws IOException when criteria has not been met to successfully load the Reports Screen.
+     */
     public void reportSelected(ActionEvent event) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
@@ -374,7 +424,9 @@ public class MainScreenController {
     }
 
 
-
+    /**
+     * Selecting this will sign the User out of the Application and exit the screen.
+     */
     public void signOutSelected() {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You are now EXITING the program. Continue?");
@@ -388,6 +440,10 @@ public class MainScreenController {
     }
 
 
+    /**
+     * Initializes the Main Screen with data from the Appointments Table and Customer Table in the database associated to the User.
+     * @param user references the User currently logged intot he application.
+     */
     public void initialize(User user) {
 
         loggedIn = user;
@@ -446,14 +502,7 @@ public class MainScreenController {
                 noticeLabel.setText("NOTICE: NO UPCOMING APPOINTMENTS AT THIS MOMENT");
             }
         }
-
-
-
-
-
-
     }
-
 
 
 

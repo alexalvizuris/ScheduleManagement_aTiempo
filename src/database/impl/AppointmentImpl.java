@@ -12,7 +12,9 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-
+/**
+ * SQL implementation class for appointment DAO
+ */
 public class AppointmentImpl implements AppointmentDAO {
 
     // Initializes Insert string
@@ -50,7 +52,12 @@ public class AppointmentImpl implements AppointmentDAO {
     // Initializes Read All of Type
     private static final String ALL_TYPE = "SELECT * FROM appointments WHERE Type = ?";
 
-
+    /**
+     * Insert statement for appointment table
+     * @param appointment references appointment object being created
+     * @return appointment being inserted
+     * @throws SQLException when issues occur with reading from the database
+     */
     public Appointment create(Appointment appointment) {
         Connection conn = DBConnection.startConnection();
         try(PreparedStatement statement = conn.prepareStatement(INSERT)) {
@@ -77,8 +84,12 @@ public class AppointmentImpl implements AppointmentDAO {
     }
 
 
-
-
+    /**
+     * Read statement for the appointment table
+     * @param appointmentID references selected appointment
+     * @return appointment being read
+     * @throws SQLException when issues occur with reading from the database
+     */
     public Appointment getAppt(int appointmentID) {
         Connection conn = DBConnection.startConnection();
 
@@ -129,8 +140,11 @@ public class AppointmentImpl implements AppointmentDAO {
     }
 
 
-
-
+    /**
+     * Read All statement from appointment table
+     * @return all appointments
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ObservableList<Appointment> getAllAppt() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         Connection conn = DBConnection.startConnection();
@@ -175,7 +189,12 @@ public class AppointmentImpl implements AppointmentDAO {
         return appointments;
     }
 
-
+    /**
+     * Read All appointments from single User statement
+     * @param userID references selected User
+     * @return all appointments from selected user
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ObservableList<Appointment> allFromUser(int userID) {
 
         ObservableList<Appointment> allAppts = FXCollections.observableArrayList();
@@ -221,6 +240,13 @@ public class AppointmentImpl implements AppointmentDAO {
         return allAppts;
     }
 
+
+    /**
+     * Read All appointments this week from appointment table
+     * @param userID references selected user
+     * @return all appointments this week
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ObservableList<Appointment> weekAppointments(int userID) {
 
         ObservableList<Appointment> weeklyAppts = FXCollections.observableArrayList();
@@ -270,6 +296,13 @@ public class AppointmentImpl implements AppointmentDAO {
         return weeklyAppts;
     }
 
+
+    /**
+     * Read all appointments this month from appointment table
+     * @param userID references selected user
+     * @return appointments this month
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ObservableList<Appointment> monthAppointments(int userID) {
 
         ObservableList<Appointment> monthlyAppts = FXCollections.observableArrayList();
@@ -321,6 +354,12 @@ public class AppointmentImpl implements AppointmentDAO {
         return monthlyAppts;
     }
 
+    /**
+     * Read all appointments by selected Customer
+     * @param customerID references selected customer
+     * @return list of appointments of customer
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ArrayList<Appointment> allCustomerAppt(int customerID) {
         ArrayList<Appointment> apptList = new ArrayList<>();
         Connection conn = DBConnection.startConnection();
@@ -367,7 +406,11 @@ public class AppointmentImpl implements AppointmentDAO {
     }
 
 
-
+    /**
+     * Update statement for appointment table
+     * @param appointment references appointment being updated
+     * @throws SQLException when issues occur with reading from the database
+     */
     public void update(Appointment appointment) {
         Connection conn = DBConnection.startConnection();
 
@@ -411,8 +454,11 @@ public class AppointmentImpl implements AppointmentDAO {
     }
 
 
-
-
+    /**
+     * delete statement for appointment table
+     * @param appointmentID references appointment being deleted
+     * @throws SQLException when issues occur with reading from the database
+     */
     public void delete(int appointmentID) {
         Connection conn = DBConnection.startConnection();
         try (PreparedStatement statement = conn.prepareStatement(DELETE)) {
@@ -425,7 +471,12 @@ public class AppointmentImpl implements AppointmentDAO {
     }
 
 
-
+    /**
+     * Read All statement of appointments by type
+     * @param types references type being displayed
+     * @return list of appointments
+     * @throws SQLException when issues occur with reading from the database
+     */
     public ObservableList<Appointment> ofType(String types) {
         ObservableList<Appointment> allAppt = FXCollections.observableArrayList();
         Connection conn = DBConnection.startConnection();

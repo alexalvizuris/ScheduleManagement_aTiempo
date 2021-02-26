@@ -3,6 +3,9 @@ package database.interfaces;
 import javafx.collections.ObservableList;
 import model.User;
 
+/**
+ * User interface
+ */
 public interface UserDAO {
 
 
