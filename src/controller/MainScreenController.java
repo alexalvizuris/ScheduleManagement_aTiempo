@@ -128,6 +128,9 @@ public class MainScreenController {
 
     private User loggedIn;
 
+    @FXML
+    private Label noticeLabel;
+
 
 
 
@@ -417,6 +420,36 @@ public class MainScreenController {
         custDivision.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
 
         customerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        UserImpl userImpl = new UserImpl();
+        ObservableList<User> acceptable = FXCollections.observableArrayList();
+        acceptable = userImpl.getAllUsers();
+        AppointmentImpl apptImpl = new AppointmentImpl();
+        ObservableList<Appointment> theseAppt = FXCollections.observableArrayList();
+
+        int userId = loggedIn.getUserId();
+        theseAppt = apptImpl.allFromUser(userId);
+        String apptId = "";
+        String appt = "";
+        int hasAppt = 0;
+
+        for (int j = 0; j < theseAppt.size(); j ++) {
+            if (theseAppt.get(j).getStart().isAfter(LocalDateTime.now()) && theseAppt.get(j).getStart().isBefore(LocalDateTime.now().plusMinutes(15))) {
+                apptId = String.valueOf(theseAppt.get(j).getAppointmentID());
+                appt = theseAppt.get(j).getStart().toString();
+                hasAppt += 1;
+            }
+            if (hasAppt > 0) {
+                noticeLabel.setText("NOTICE: APPOINTMENT " + apptId + " BEGINS AT " + appt + "!");
+            }
+            if (hasAppt == 0) {
+                noticeLabel.setText("NOTICE: NO UPCOMING APPOINTMENTS AT THIS MOMENT");
+            }
+        }
+
+
+
+
 
 
     }

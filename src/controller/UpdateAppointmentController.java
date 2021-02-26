@@ -121,7 +121,7 @@ public class UpdateAppointmentController {
         custAppt = impl.allCustomerAppt(customerID);
 
         for (int i = 0; i < custAppt.size(); i++) {
-            if ((custAppt.get(i).getStart().isEqual(start)) || (custAppt.get(i).getEnd().isEqual(end))) {
+            if (((custAppt.get(i).getStart().isEqual(start)) || (custAppt.get(i).getEnd().isEqual(end))) && custAppt.get(i).getCustomerID() != customerID) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("An Error has occurred");
                 alert.setContentText("This customer is currently booked at the entered hour. Please enter a separate time slot.");
