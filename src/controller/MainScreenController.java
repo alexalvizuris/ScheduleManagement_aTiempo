@@ -322,6 +322,7 @@ public class MainScreenController {
             AppointmentImpl appt = new AppointmentImpl();
             int apptID = mainTableView.getSelectionModel().getSelectedItem().getAppointmentID();
             appt.delete(apptID);
+            mainTableView.setItems(appt.allFromUser(loggedIn.getUserId()));
         }
 
     }
@@ -361,6 +362,7 @@ public class MainScreenController {
             CustomerImpl cust = new CustomerImpl();
             int custID = customerTable.getSelectionModel().getSelectedItem().getCustomerID();
             cust.delete(custID);
+            customerTable.setItems(cust.allCustomers());
         }
 
     }

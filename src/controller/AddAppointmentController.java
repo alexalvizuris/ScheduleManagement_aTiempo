@@ -81,93 +81,102 @@ public class AddAppointmentController {
     public void addApptSaveSelected(ActionEvent event) throws IOException {
 
 
-        String title = newTitle.getText();
-        String description = newDescription.getText();
-        String location = newLocation.getText();
-        String type = newType.getSelectionModel().getSelectedItem();
+       try {
+           String title = newTitle.getText();
+           String description = newDescription.getText();
+           String location = newLocation.getText();
+           String type = newType.getSelectionModel().getSelectedItem();
 
-        LocalDate startDate = newStartDate.getValue();
-        String startTimeString = newStartTime.getText() + ":00";
-        LocalTime startTime = LocalTime.parse(startTimeString);
-        LocalDateTime start = LocalDateTime.of(startDate, startTime);
+           LocalDate startDate = newStartDate.getValue();
+           String startTimeString = newStartTime.getText() + ":00";
+           LocalTime startTime = LocalTime.parse(startTimeString);
+           LocalDateTime start = LocalDateTime.of(startDate, startTime);
 
-        LocalDate endDate = newEndDate.getValue();
-        String endTimeString = newEndTime.getText() + ":00";
-        LocalTime endTime = LocalTime.parse(endTimeString);
-        LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        int userID = loggedIn.getUserId();
-        int customerID = newCustomer.getSelectionModel().getSelectedItem().getCustomerID();
-        int contactID = newContact.getSelectionModel().getSelectedItem().getContactID();
-        String createdBy = loggedIn.getUserName();
-        String updatedBy = loggedIn.getUserName();
+           LocalDate endDate = newEndDate.getValue();
+           String endTimeString = newEndTime.getText() + ":00";
+           LocalTime endTime = LocalTime.parse(endTimeString);
+           LocalDateTime end = LocalDateTime.of(endDate, endTime);
+           int userID = loggedIn.getUserId();
+           int customerID = newCustomer.getSelectionModel().getSelectedItem().getCustomerID();
+           int contactID = newContact.getSelectionModel().getSelectedItem().getContactID();
+           String createdBy = loggedIn.getUserName();
+           String updatedBy = loggedIn.getUserName();
 
-        if (start.isAfter(end)) {
+
+           if (start.isAfter(end)) {
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("An Error has occurred");
+               alert.setContentText("Please ensure that the START of the appointment comes before the END of the appointment.");
+               alert.showAndWait();
+               return;
+           }
+
+           if (start.isBefore(LocalDateTime.now())) {
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("An Error has occurred");
+               alert.setContentText("Appointments cannot be made in the past.");
+               alert.showAndWait();
+               return;
+           }
+
+           AppointmentImpl impl = new AppointmentImpl();
+           ArrayList<Appointment> custAppt = new ArrayList<>();
+           custAppt = impl.allCustomerAppt(customerID);
+
+           for (int i = 0; i < custAppt.size(); i++) {
+               if ((custAppt.get(i).getStart().isEqual(start)) || (custAppt.get(i).getEnd().isEqual(end))) {
+                   Alert alert = new Alert(Alert.AlertType.ERROR);
+                   alert.setTitle("An Error has occurred");
+                   alert.setContentText("This customer is currently booked at the entered hour. Please enter a separate time slot.");
+                   alert.showAndWait();
+                   return;
+               }
+           }
+
+
+           Appointment newAppointment = new Appointment(title, description, location, type, start, end);
+           newAppointment.setUserID(userID);
+           newAppointment.setCustomerID(customerID);
+           newAppointment.setContactID(contactID);
+           newAppointment.setCreatedBy(createdBy);
+           newAppointment.setLastUpdatedBy(updatedBy);
+
+           ZoneId eastCoast = ZoneId.of("America/New_York");
+           ZoneId local = ZoneId.of(TimeZone.getDefault().getID());
+
+           ZonedDateTime localDateTime = ZonedDateTime.of(startDate, startTime, local);
+           ZonedDateTime toEastCoastTime = localDateTime.withZoneSameInstant(eastCoast);
+
+           if (toEastCoastTime.toLocalTime().isBefore(LocalTime.of(8, 0)) || toEastCoastTime.toLocalTime().isAfter(LocalTime.of(21, 59))) {
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+               alert.setTitle("An Error has occurred");
+               alert.setContentText("The time you entered is outside of normal business hours. Please select a time between 8AM and 10PM EST.");
+               alert.showAndWait();
+               return;
+           }
+
+
+           impl.create(newAppointment);
+
+           FXMLLoader loader = new FXMLLoader();
+           loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+           Parent addApptParent = loader.load();
+           Scene addApptScene = new Scene(addApptParent);
+
+           MainScreenController controller = loader.getController();
+           controller.initialize(loggedIn);
+
+           Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+           stage.setScene(addApptScene);
+           stage.centerOnScreen();
+           stage.show();
+       } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("An Error has occurred");
-            alert.setContentText("Please ensure that the START of the appointment comes before the END of the appointment.");
+            alert.setContentText("Please enter valid input");
             alert.showAndWait();
             return;
         }
-
-        if (start.isBefore(LocalDateTime.now())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("An Error has occurred");
-            alert.setContentText("Appointments cannot be made in the past.");
-            alert.showAndWait();
-            return;
-        }
-
-        AppointmentImpl impl = new AppointmentImpl();
-        ArrayList<Appointment> custAppt = new ArrayList<>();
-        custAppt = impl.allCustomerAppt(customerID);
-
-        for (int i = 0; i < custAppt.size(); i++) {
-            if ((custAppt.get(i).getStart().isEqual(start)) || (custAppt.get(i).getEnd().isEqual(end))) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("An Error has occurred");
-                alert.setContentText("This customer is currently booked at the entered hour. Please enter a separate time slot.");
-                alert.showAndWait();
-                return;
-            }
-        }
-
-
-        Appointment newAppointment = new Appointment(title, description, location, type, start, end);
-        newAppointment.setUserID(userID);
-        newAppointment.setCustomerID(customerID);
-        newAppointment.setContactID(contactID);
-        newAppointment.setCreatedBy(createdBy);
-        newAppointment.setLastUpdatedBy(updatedBy);
-
-        ZoneId eastCoast = ZoneId.of("America/New_York");
-        ZoneId local = ZoneId.of(TimeZone.getDefault().getID());
-
-        ZonedDateTime localDateTime = ZonedDateTime.of(startDate, startTime, local);
-        ZonedDateTime toEastCoastTime = localDateTime.withZoneSameInstant(eastCoast);
-
-        if (toEastCoastTime.toLocalTime().isBefore(LocalTime.of(8, 0)) || toEastCoastTime.toLocalTime().isAfter(LocalTime.of(21, 59))) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("An Error has occurred");
-            alert.setContentText("The time you entered is outside of normal business hours. Please select a time between 8AM and 10PM EST.");
-            alert.showAndWait();
-            return;
-        }
-
-
-        impl.create(newAppointment);
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
-        Parent addApptParent = loader.load();
-        Scene addApptScene = new Scene(addApptParent);
-
-        MainScreenController controller = loader.getController();
-        controller.initialize(loggedIn);
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(addApptScene);
-        stage.centerOnScreen();
-        stage.show();
 
 
     }

@@ -7,3 +7,10 @@
 2021-02-26T12:03:02.629833 SUCCESSFUL login attempt by: test.
 2021-02-26T12:06:28.858061 SUCCESSFUL login attempt by: test.
 2021-02-26T12:09:39.434700 SUCCESSFUL login attempt by: test.
+2021-02-26T15:09:09.561610 UNSUCCESSFUL login attempt by: test.
+2021-02-26T15:09:53.944804 UNSUCCESSFUL login attempt by: test.
+2021-02-26T15:10:01.182282 SUCCESSFUL login attempt by: test.
+2021-02-26T15:30:15.399200 SUCCESSFUL login attempt by: test.
+2021-02-26T15:37:17.197755 SUCCESSFUL login attempt by: test.
+2021-02-26T15:42:21.206367 SUCCESSFUL login attempt by: test.
+2021-02-26T15:45:03.170492 SUCCESSFUL login attempt by: test.

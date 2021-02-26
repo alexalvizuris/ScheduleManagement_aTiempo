@@ -83,97 +83,105 @@ public class UpdateAppointmentController {
      */
     public void updateSaveSelected(ActionEvent event) throws IOException {
 
-        AppointmentImpl impl = new AppointmentImpl();
+        try {
+            AppointmentImpl impl = new AppointmentImpl();
 
-        String id = updateID.getText();
-        String title = updateTitle.getText();
-        String description = updateDescription.getText();
-        String location = updateLocation.getText();
-        String type = updateType.getSelectionModel().getSelectedItem();
+            String id = updateID.getText();
+            String title = updateTitle.getText();
+            String description = updateDescription.getText();
+            String location = updateLocation.getText();
+            String type = updateType.getSelectionModel().getSelectedItem();
 
-        LocalDate startDate = updateStartDate.getValue();
-        String startString = updateStartTime.getText() + ":00";
-        LocalTime startTime = LocalTime.parse(startString);
-        LocalDateTime start = LocalDateTime.of(startDate, startTime);
+            LocalDate startDate = updateStartDate.getValue();
+            String startString = updateStartTime.getText() + ":00";
+            LocalTime startTime = LocalTime.parse(startString);
+            LocalDateTime start = LocalDateTime.of(startDate, startTime);
 
-        LocalDate endDate = updateEndDate.getValue();
-        String endString = updateEndTime.getText() + ":00";
-        LocalTime endTime = LocalTime.parse(endString);
-        LocalDateTime end = LocalDateTime.of(endDate, endTime);
-        int userID = updateUser.getSelectionModel().getSelectedItem().getUserId();
-        int customerID = updateCustomer.getSelectionModel().getSelectedItem().getCustomerID();
-        int contactID = updateContact.getSelectionModel().getSelectedItem().getContactID();
-        Timestamp update = Timestamp.valueOf(LocalDateTime.now());
-        String updatedBy = loggedIn.getUserName();
+            LocalDate endDate = updateEndDate.getValue();
+            String endString = updateEndTime.getText() + ":00";
+            LocalTime endTime = LocalTime.parse(endString);
+            LocalDateTime end = LocalDateTime.of(endDate, endTime);
+            int userID = updateUser.getSelectionModel().getSelectedItem().getUserId();
+            int customerID = updateCustomer.getSelectionModel().getSelectedItem().getCustomerID();
+            int contactID = updateContact.getSelectionModel().getSelectedItem().getContactID();
+            Timestamp update = Timestamp.valueOf(LocalDateTime.now());
+            String updatedBy = loggedIn.getUserName();
 
-        if (start.isAfter(end)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("An Error has occurred");
-            alert.setContentText("Please ensure that the START of the appointment comes before the END of the appointment.");
-            alert.showAndWait();
-            return;
-        }
-
-        if (start.isBefore(LocalDateTime.now())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("An Error has occurred");
-            alert.setContentText("Appointments cannot be made in the past.");
-            alert.showAndWait();
-            return;
-        }
-
-
-        ArrayList<Appointment> custAppt = new ArrayList<>();
-        custAppt = impl.allCustomerAppt(customerID);
-
-        for (int i = 0; i < custAppt.size(); i++) {
-            if (((custAppt.get(i).getStart().isEqual(start)) || (custAppt.get(i).getEnd().isEqual(end))) && custAppt.get(i).getCustomerID() != customerID) {
+            if (start.isAfter(end)) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("An Error has occurred");
-                alert.setContentText("This customer is currently booked at the entered hour. Please enter a separate time slot.");
+                alert.setContentText("Please ensure that the START of the appointment comes before the END of the appointment.");
                 alert.showAndWait();
                 return;
             }
-        }
 
-        Appointment newAppointment = new Appointment(title, description, location, type, start, end);
-        newAppointment.setUserID(userID);
-        newAppointment.setCustomerID(customerID);
-        newAppointment.setContactID(contactID);
-        newAppointment.setAppointmentID(Integer.valueOf(id));
-        newAppointment.setLastUpdate(update);
-        newAppointment.setLastUpdatedBy(updatedBy);
+            if (start.isBefore(LocalDateTime.now())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("An Error has occurred");
+                alert.setContentText("Appointments cannot be made in the past.");
+                alert.showAndWait();
+                return;
+            }
 
-        ZoneId eastCoast = ZoneId.of("America/New_York");
-        ZoneId local = ZoneId.of(TimeZone.getDefault().getID());
 
-        ZonedDateTime localDateTime = ZonedDateTime.of(startDate, startTime, local);
-        ZonedDateTime toEastCoastTime = localDateTime.withZoneSameInstant(eastCoast);
+            ArrayList<Appointment> custAppt = new ArrayList<>();
+            custAppt = impl.allCustomerAppt(customerID);
 
-        if (toEastCoastTime.toLocalTime().isBefore(LocalTime.of(8, 0)) || toEastCoastTime.toLocalTime().isAfter(LocalTime.of(21, 59))) {
+            for (int i = 0; i < custAppt.size(); i++) {
+                if (((custAppt.get(i).getStart().isEqual(start)) || (custAppt.get(i).getEnd().isEqual(end))) && custAppt.get(i).getCustomerID() != customerID) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("An Error has occurred");
+                    alert.setContentText("This customer is currently booked at the entered hour. Please enter a separate time slot.");
+                    alert.showAndWait();
+                    return;
+                }
+            }
+
+            Appointment newAppointment = new Appointment(title, description, location, type, start, end);
+            newAppointment.setUserID(userID);
+            newAppointment.setCustomerID(customerID);
+            newAppointment.setContactID(contactID);
+            newAppointment.setAppointmentID(Integer.valueOf(id));
+            newAppointment.setLastUpdate(update);
+            newAppointment.setLastUpdatedBy(updatedBy);
+
+            ZoneId eastCoast = ZoneId.of("America/New_York");
+            ZoneId local = ZoneId.of(TimeZone.getDefault().getID());
+
+            ZonedDateTime localDateTime = ZonedDateTime.of(startDate, startTime, local);
+            ZonedDateTime toEastCoastTime = localDateTime.withZoneSameInstant(eastCoast);
+
+            if (toEastCoastTime.toLocalTime().isBefore(LocalTime.of(8, 0)) || toEastCoastTime.toLocalTime().isAfter(LocalTime.of(21, 59))) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("An Error has occurred");
+                alert.setContentText("The time you entered is outside of normal business hours. Please select a time between 8AM and 10PM EST.");
+                alert.showAndWait();
+                return;
+            }
+
+
+            impl.update(newAppointment);
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+
+            Parent updateApptParent = loader.load();
+            Scene updateApptScene = new Scene(updateApptParent);
+
+            MainScreenController controller = loader.getController();
+            controller.initialize(loggedIn);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(updateApptScene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("An Error has occurred");
-            alert.setContentText("The time you entered is outside of normal business hours. Please select a time between 8AM and 10PM EST.");
+            alert.setContentText("Please enter valid input");
             alert.showAndWait();
             return;
         }
-
-
-        impl.update(newAppointment);
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
-
-        Parent updateApptParent = loader.load();
-        Scene updateApptScene = new Scene(updateApptParent);
-
-        MainScreenController controller = loader.getController();
-        controller.initialize(loggedIn);
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(updateApptScene);
-        stage.centerOnScreen();
-        stage.show();
 
     }
 

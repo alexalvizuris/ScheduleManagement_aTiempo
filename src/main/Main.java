@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+
 
 /**
  * Main Class for application
@@ -27,7 +29,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-
 
         launch(args);
 

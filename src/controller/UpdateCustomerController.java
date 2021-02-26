@@ -64,41 +64,48 @@ public class UpdateCustomerController {
      * @throws IOException when criteria has not been met to successfully load to Main Screen.
      */
     public void updateSaveSelected(ActionEvent event) throws IOException {
-        String id = String.valueOf(updateID.getText());
-        String name = updateName.getText();
-        String address = updateAddress.getText();
-        String postal = updatePostal.getText();
-        int tempCountry = updateCountry.getSelectionModel().getSelectedItem().getCountryID();
-        String country = updateCountry.getSelectionModel().getSelectedItem().getCountryName();
-        int division = updateState.getSelectionModel().getSelectedItem().getDivisionID();
-        String phone = updatePhone.getText();
-        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
-        String updatedBy = loggedIn.getUserName();
+        try {
+            String id = String.valueOf(updateID.getText());
+            String name = updateName.getText();
+            String address = updateAddress.getText();
+            String postal = updatePostal.getText();
+            int tempCountry = updateCountry.getSelectionModel().getSelectedItem().getCountryID();
+            String country = updateCountry.getSelectionModel().getSelectedItem().getCountryName();
+            int division = updateState.getSelectionModel().getSelectedItem().getDivisionID();
+            String phone = updatePhone.getText();
+            Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+            String updatedBy = loggedIn.getUserName();
 
 
-        Customer customer = new Customer(name, address, postal, phone);
-        customer.setDivisionID(division);
-        customer.setLastUpdated(now);
-        customer.setLastUpdatedBy(updatedBy);
-        customer.setCustomerID(Integer.valueOf(id));
+            Customer customer = new Customer(name, address, postal, phone);
+            customer.setDivisionID(division);
+            customer.setLastUpdated(now);
+            customer.setLastUpdatedBy(updatedBy);
+            customer.setCustomerID(Integer.valueOf(id));
 
-        CustomerImpl impl = new CustomerImpl();
+            CustomerImpl impl = new CustomerImpl();
 
-        impl.update(customer);
+            impl.update(customer);
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
-        Parent updateCustParent = loader.load();
-        Scene updateCustScene = new Scene(updateCustParent);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+            Parent updateCustParent = loader.load();
+            Scene updateCustScene = new Scene(updateCustParent);
 
-        MainScreenController controller = loader.getController();
-        controller.initialize(loggedIn);
+            MainScreenController controller = loader.getController();
+            controller.initialize(loggedIn);
 
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(updateCustScene);
-        stage.centerOnScreen();
-        stage.show();
-
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(updateCustScene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("Please enter valid input");
+            alert.showAndWait();
+            return;
+        }
     }
 
 

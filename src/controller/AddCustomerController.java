@@ -59,10 +59,59 @@ public class AddCustomerController {
      */
     public void newCustCancelSelected(ActionEvent event) throws IOException {
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No data will be saved. Continue?");
-        Optional<ButtonType> confirm = alert.showAndWait();
 
-        if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "No data will be saved. Continue?");
+            Optional<ButtonType> confirm = alert.showAndWait();
+
+            if (confirm.isPresent() && confirm.get() == ButtonType.OK) {
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
+
+                Parent addCustParent = loader.load();
+                Scene addCustScene = new Scene(addCustParent);
+
+                MainScreenController controller = loader.getController();
+                controller.initialize(loggedIn);
+
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(addCustScene);
+                stage.centerOnScreen();
+                stage.show();
+
+            }
+        }
+
+
+
+    /**
+     * Selecting this will add the customer to the database, and return back to the Main Screen.
+     * @param event created to initialize the SAVE method on the Add Customer Screen.
+     * @throws IOException when criteria is not met to successfully return back to the Main Screen.
+     */
+    public void newCustSaveSelected(ActionEvent event) throws IOException {
+
+        try {
+            String name = newName.getText();
+            String address = newAddress.getText();
+            String postal = newPostal.getText();
+            int tempCountry = newCountry.getSelectionModel().getSelectedItem().getCountryID();
+            String country = newCountry.getSelectionModel().getSelectedItem().getCountryName();
+            int division = newState.getSelectionModel().getSelectedItem().getDivisionID();
+            String phone = newPhone.getText();
+            String createdBy = loggedIn.getUserName();
+            String updatedBy = loggedIn.getUserName();
+
+
+            Customer customer = new Customer(name, address, postal, phone);
+            customer.setDivisionID(division);
+            customer.setCreatedBy(createdBy);
+            customer.setLastUpdatedBy(updatedBy);
+
+            CustomerImpl impl = new CustomerImpl();
+
+            impl.create(customer);
+
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
@@ -77,52 +126,13 @@ public class AddCustomerController {
             stage.setScene(addCustScene);
             stage.centerOnScreen();
             stage.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("An Error has occurred");
+            alert.setContentText("Please enter valid input");
+            alert.showAndWait();
+            return;
         }
-    }
-
-
-    /**
-     * Selecting this will add the customer to the database, and return back to the Main Screen.
-     * @param event created to initialize the SAVE method on the Add Customer Screen.
-     * @throws IOException when criteria is not met to successfully return back to the Main Screen.
-     */
-    public void newCustSaveSelected(ActionEvent event) throws IOException {
-
-
-        String name = newName.getText();
-        String address = newAddress.getText();
-        String postal = newPostal.getText();
-        int tempCountry = newCountry.getSelectionModel().getSelectedItem().getCountryID();
-        String country = newCountry.getSelectionModel().getSelectedItem().getCountryName();
-        int division = newState.getSelectionModel().getSelectedItem().getDivisionID();
-        String phone = newPhone.getText();
-        String createdBy = loggedIn.getUserName();
-        String updatedBy  = loggedIn.getUserName();
-
-
-        Customer customer = new Customer(name, address, postal, phone);
-        customer.setDivisionID(division);
-        customer.setCreatedBy(createdBy);
-        customer.setLastUpdatedBy(updatedBy);
-
-        CustomerImpl impl = new CustomerImpl();
-
-        impl.create(customer);
-
-
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/mainScreen.fxml"));
-
-        Parent addCustParent = loader.load();
-        Scene addCustScene = new Scene(addCustParent);
-
-        MainScreenController controller = loader.getController();
-        controller.initialize(loggedIn);
-
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(addCustScene);
-        stage.centerOnScreen();
-        stage.show();
 
     }
 
