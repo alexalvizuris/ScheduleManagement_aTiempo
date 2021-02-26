@@ -20,7 +20,7 @@
          <children>
             <Button fx:id="newAppointmentButton" mnemonicParsing="false" onAction="#newAppointmentSelected" text="New Appointment" />
             <Button fx:id="newCustomerButton" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#newCustomerSelected" prefWidth="117.0" text="New Customer" />
-            <Button fx:id="reportsButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="117.0" text="Reports" />
+            <Button fx:id="reportsButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="117.0" text="Reports" onAction="#reportSelected" />
          </children>
          <padding>
             <Insets left="15.0" />

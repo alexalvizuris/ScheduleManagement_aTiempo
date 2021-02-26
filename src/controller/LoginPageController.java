@@ -70,7 +70,8 @@ public class LoginPageController {
                  userAppt = apptImpl.allFromUser(userID);
 
                  for (int j = 0; j < userAppt.size(); j++) {
-                     if (userAppt.get(j).getStart().isAfter(LocalDateTime.now()) && userAppt.get(i).getStart().isBefore(LocalDateTime.now().plusMinutes(15))) {
+
+                     if (userAppt.get(j).getStart().isAfter(LocalDateTime.now()) && userAppt.get(j).getStart().isBefore(LocalDateTime.now().plusMinutes(15))) {
                          apptId = String.valueOf(userAppt.get(j).getAppointmentID());
                          appt = userAppt.get(j).getStart().toString();
                          hasAppt += 1;
@@ -107,7 +108,7 @@ public class LoginPageController {
              }
 
          }
-         //Create code for right here that will correlate to the french error message
+
         if (count == 0) {
             if (Locale.getDefault().getLanguage().equals("en") || Locale.getDefault().getLanguage().equals("fr")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);

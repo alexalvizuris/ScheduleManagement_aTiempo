@@ -22,6 +22,7 @@ import model.User;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class MainScreenController {
@@ -254,6 +255,13 @@ public class MainScreenController {
 
     public void deleteAppointment(ActionEvent event) {
 
+        AppointmentImpl impl = new AppointmentImpl();
+        ObservableList<Appointment> appts = FXCollections.observableArrayList();
+        appts = impl.allFromUser(loggedIn.getUserId());
+        String typeDeleted = mainTableView.getSelectionModel().getSelectedItem().getType();
+        int id = mainTableView.getSelectionModel().getSelectedItem().getAppointmentID();
+
+
         if (mainTableView.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("An Error has occurred");
@@ -262,7 +270,7 @@ public class MainScreenController {
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You are deleting an appointment. Continue?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You are deleting a(n) " + typeDeleted + " appointment. Appointment ID: " + id + ". Continue?");
         Optional<ButtonType> selectedButton = alert.showAndWait();
 
         if (selectedButton.isPresent() && selectedButton.get() == ButtonType.OK) {
@@ -329,6 +337,25 @@ public class MainScreenController {
         }
     }
 
+    public void reportSelected(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/reports.fxml"));
+
+        Parent reportParent = loader.load();
+        Scene reportScene = new Scene(reportParent);
+
+        ReportController controller = loader.getController();
+        controller.initReport(loggedIn);
+
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(reportScene);
+        stage.centerOnScreen();
+        stage.show();
+
+    }
+
 
 
     public void signOutSelected() {
@@ -347,8 +374,7 @@ public class MainScreenController {
     public void initialize(User user) {
 
         loggedIn = user;
-        int apptId = 0;
-        String title = "";
+
 
         AppointmentImpl implement = new AppointmentImpl();
         mainTableView.setItems(implement.allFromUser(loggedIn.getUserId()));
@@ -377,17 +403,6 @@ public class MainScreenController {
         custDivision.setCellValueFactory(new PropertyValueFactory<>("divisionID"));
 
         customerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-//        ObservableList<Appointment> userAppt = FXCollections.observableArrayList();
-//        userAppt = implement.allFromUser(loggedIn.getUserId());
-//        int count = 0;
-//        for (int i = 0; i < userAppt.size(); i++) {
-//            if (userAppt.get(i).getStart().isAfter(LocalDateTime.now()) && userAppt.get(i).getStart().isBefore(LocalDateTime.now().plusMinutes(15))) {
-//                apptId = userAppt.get(i).getAppointmentID();
-//                title = userAppt.get(i).getTitle();
-//                count += 1;
-//            }
-//        }
 
 
     }

@@ -19,6 +19,7 @@ public class Appointment {
     private int contactID;
     private int userID;
     private int customerID;
+    private String contactName;
 
     public Appointment(String title, String description, String location, String type, LocalDateTime start, LocalDateTime end) {
 
@@ -149,4 +150,14 @@ public class Appointment {
     public String toString() {
         return (String.valueOf(appointmentID));
     }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+
 }
