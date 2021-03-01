@@ -21,10 +21,11 @@ password: test<bt><br>
 
 IDE: IntelliJ IDEA 2020.3.2<br>
 JavaFX SDK 11.0.2<br>
-JDK: Amazon Corretto 11<br>
+JDK: JDK 11.0.10.jdk<br>
+Database: MySQL<br>
 
 ## Author
 
 Author: Alex Alvizuris<br>
 Contact: alvizuris.alex@gmail.com<br>
-Date: February 26, 2021
+Date: February 28, 2021
